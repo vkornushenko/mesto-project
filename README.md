@@ -4,4 +4,4 @@
 ## Использованные технологии
 В проекте использовался HTML и CSS. Для работы были использованы гриды и флексбокс, медиазапросы, семантика и БЭМ, анимация, работа со встроенными элементами, формы.
 ## Ссылка на GitHub Pages
-[https://vkornushenko.github.io/mesto/](https://vkornushenko.github.io/mesto/)
+[https://vkornushenko.github.io/mesto-project/](https://vkornushenko.github.io/mesto-project/)
