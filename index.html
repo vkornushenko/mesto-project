@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mesto - сайт для публикации посещенных мест">
+  <meta name="keywords" content="Жак-Ив Кусто, Карачаевск, Гора Эльбрус">
+  <meta name="author" content="Владислав Корнюшенко">
+  <link rel="stylesheet" href="pages/index.css">
+  <title>Место</title>
+</head>
+<body class="root">
+  <div class="page">
+
+    <header class="header">
+      <div class="logo"></div>
+    </header>
+
+    <main>
+      <section class="profile">
+        <div class="profile__avatar"></div>
+        <h1 class="profile__title">Жак-Ив Кусто</h1>
+        <p class="profile__subtitle">Исследователь океана</p>
+        <button class="profile__edit-button fade-btn_bg_dark"></button>
+        <button class="profile__add-button fade-btn_bg_dark"></button>
+      </section>
+
+      <section class="places">
+
+        <div class="place">
+          <img class="place__photo" src="images/karachaevsk.jpg" alt="Карачаевск">
+          <h2 class="place__name">Карачаевск</h2>
+          <button class="place__like-btn fade-btn_bg_light"></button>
+        </div>
+
+        <div class="place">
+          <img class="place__photo" src="images/elbrus.jpg" alt="Гора Эльбрус">
+          <h2 class="place__name">Гора Эльбрус</h2>
+          <button class="place__like-btn fade-btn_bg_light"></button>
+        </div>
+
+        <div class="place">
+          <img class="place__photo" src="images/dombay.jpg" alt="Домбай">
+          <h2 class="place__name">Домбай</h2>
+          <button class="place__like-btn fade-btn_bg_light"></button>
+        </div>
+
+        <div class="place">
+          <img class="place__photo" src="images/elbrus.jpg" alt="Гора Эльбрус">
+          <h2 class="place__name">Гора Эльбрус</h2>
+          <button class="place__like-btn fade-btn_bg_light"></button>
+        </div>
+
+        <div class="place">
+          <img class="place__photo" src="images/dombay.jpg" alt="Домбай">
+          <h2 class="place__name">Домбай</h2>
+          <button class="place__like-btn fade-btn_bg_light"></button>
+        </div>
+
+        <div class="place">
+          <img class="place__photo" src="images/karachaevsk.jpg" alt="Карачаево-Черкессия">
+          <h2 class="place__name">Карачаево-Черкессия</h2>
+          <button class="place__like-btn fade-btn_bg_light"></button>
+        </div>
+
+        <!--
+        <div class="place">
+          <img class="place__photo" src="images/test-img.jpg">
+          <h2 class="place__name">Тест</h2>
+          <button class="place__like-btn fade-btn_bg_light"></button>
+        </div>
+        -->
+
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="footer__copyright">© 2022 Mesto Russia</p>
+    </footer>
+    <!-- Чтобы модальное окно открывалось, добавьте ему модификатор pop-up_opened -->
+    <div class="pop-up">
+      <div class="edit-profile__container">
+        <button class="edit-profile__close-btn fade-btn_bg_dark"></button>
+
+        <form class="edit-profile" action="#" method="GET">
+          <fieldset class="edit-profile__form-fieldset">
+            <h3 class="edit-profile__title">Редактировать профиль</h3>
+            <label>
+              <input type="text" name="profile-title" value="Жак-Ив Кусто" placeholder="имя" class="edit-profile__name">
+            </label>
+            <label>
+              <input type="text" name="profile-subtitle" value="Исследователь океана" placeholder="описание" class="edit-profile__description">
+            </label>
+            <input type="submit" value="Сохранить" class="edit-profile__submit fade-submit-btn">
+          </fieldset>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

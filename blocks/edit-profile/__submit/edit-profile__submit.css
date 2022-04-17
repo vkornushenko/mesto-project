@@ -1,0 +1,26 @@
+.edit-profile__submit{
+  display: block;
+  margin: 48px 0 0 0;
+  width: 100%;
+  background-color: #000;
+  border:0px;
+  padding: 14px 0 18px 0;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+@media (max-width: 1023px) {
+  .edit-profile__submit{
+    font-size: 14px;
+    line-height: 17px;
+    padding: 14px 0 14px 0;
+    margin: 45px 0 0 0;
+  }
+}
+
+.edit-profile__submit:hover{
+  opacity: 0.8;
+  cursor: pointer;
+}

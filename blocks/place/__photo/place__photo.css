@@ -1,0 +1,7 @@
+.place__photo{
+  border-radius: 10px 10px 0 0;
+  aspect-ratio: 1/1;
+  width: 100%;
+  object-fit: cover;
+  grid-area: place__photo;
+}

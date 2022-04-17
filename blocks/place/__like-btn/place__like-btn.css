@@ -1,0 +1,23 @@
+.place__like-btn{
+  color: #000;
+  justify-self: end;
+  align-self: center;
+  grid-area: place__like-btn;
+  width: 22px;
+  height: 19px;
+  border: 0;
+  background-color: transparent;
+  margin: 30px 20px;
+  background-image: url(../../../images/like-button.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.place__like-btn:hover{
+  cursor: pointer;
+}
+
+.place__like-btn:active{
+  background-image: url(../../../images/like-button-active.svg);
+  opacity: 1;
+}

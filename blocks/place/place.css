@@ -1,0 +1,10 @@
+.place{
+  background-color: #fff;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+  grid-template-rows: repeat(2, auto);
+  grid-template-areas:
+  "place__photo place__photo"
+  "place__name place__like-btn";
+}

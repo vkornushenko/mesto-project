@@ -1,0 +1,11 @@
+.edit-profile{
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 34px 36px 37px 36px;
+}
+
+@media (max-width: 1023px) {
+  .edit-profile{
+    padding: 25px 22px 25px 22px;
+  }
+}

@@ -1,0 +1,8 @@
+.fade-btn_bg_light{
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.fade-btn_bg_light:hover{
+  opacity: 0.5;
+}
