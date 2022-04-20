@@ -6,7 +6,4 @@
   grid-area: place__name;
   margin: 0 0 0 21px;
   align-self: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }

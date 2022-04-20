@@ -4,6 +4,7 @@
   margin: 16px 0 0 0;
   font-weight: 400;
   grid-area: profile__subtitle;
+  max-width: 562px;
 }
 
 @media (max-width: 1023px) {
@@ -11,6 +12,7 @@
     font-size: 14px;
     line-height: 17px;
     margin: 14px 0 0 0;
+    max-width: 100%;
     justify-self: center;
   }
 }

@@ -1,4 +1,5 @@
 .edit-profile__container{
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 430px;
@@ -6,7 +7,7 @@
 }
 
 @media (max-width: 1023px) {
-  .edit-profile__edit-container{
+  .edit-profile__container{
     width: calc(100% - 38px);
     max-width: 430px;
   }
