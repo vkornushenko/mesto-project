@@ -1,21 +1,21 @@
-.pop-up{
+.photo-pop-up{
   position: fixed;
   min-width: 320px;
   z-index: 999;
   width: 100%;
   height: 100%;
-  background-color: #00000080;
-  display: flex;
+  background-color: #000000E6;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  display: flex;
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.3s, opacity 0.3s linear;
 }
 
 @media (max-width: 1023px) {
-  .pop-up{
-    padding: 0 19px 0 19px;
+  .photo-pop-up{
+    padding: 0 40px 0 40px;
   }
 }

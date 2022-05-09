@@ -5,3 +5,7 @@
   object-fit: cover;
   grid-area: place__photo;
 }
+
+.place__photo:hover{
+  cursor: pointer;
+}
