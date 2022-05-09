@@ -44,8 +44,12 @@ function addCard(title, pic, method){
     const photoLink = evt.target.getAttribute('src');
     const placeName = evt.target.nextElementSibling.textContent;
 
-    photoPopup.querySelector('.photo-pop-up__image').setAttribute('src', photoLink);
-    photoPopup.querySelector('.photo-pop-up__subtitle').textContent = placeName;
+    const popupPicElement = photoPopup.querySelector('.photo-pop-up__image');
+    const popupSubtitleElement = photoPopup.querySelector('.photo-pop-up__subtitle');
+
+    popupPicElement.setAttribute('src', photoLink);
+    popupPicElement.setAttribute('alt', placeName);
+    popupSubtitleElement.textContent = placeName;
 
     photoPopup.classList.add('pop-up_opened');
   });
