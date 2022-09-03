@@ -37,11 +37,64 @@ editProfileButton.addEventListener('click', openPopUp);
 closeProfileButton.addEventListener('click', closePopUp);
 formElement.addEventListener('submit', formSubmitHandler);
 
+// слушатель клика за пределы попапа редактирования профиля
+// для попапа редактирования профиля
+popUp.addEventListener('click', (evt) => {
+  if (evt.target === evt.currentTarget){
+    closePopUp();
+  }
+});
+// для попапа картинки
+photoPopup.addEventListener('click', (evt) => {
+  if (evt.target === evt.currentTarget){
+    closePopup(photoPopup);
+  }
+});
+// для попапа добавления места
+addPlacePopup.addEventListener('click', (evt) => {
+  if (evt.target === evt.currentTarget){
+    closeAddPlacePopup();
+  }
+});
 
 
+
+
+
+// 1. открываем мод окно
+// добавляем слушатель ESC
+// 2. закрываем любым способом
+// удаляем слушатель
+
+/* список объектов попапов --- и их функций открытия --- закрытия
+addPlacePopup --- openAddPlacePopup() --- closeAddPlacePopup()
+popUp - попап редактирования профиля --- openPopUp --- closePopUp()
+photoPopup - попап фотографии --- openPopup(photoPopup) --- closePopup(photoPopup);
+
+при открытии попапа добавляем слушатель кнопки ESC
+при закрытии попапа удаляем слушатель ESC
+
+*/
+
+/*
+принцип действия
+- при открытии попапа создаем слушатель кнопки ESC
+- при нажатии на кнопку ESC запускаем ф-ю закрытия попапа и удаляем слушатель
+*/
+
+// слушатели кнопки ESC
+
+
+
+
+
+
+
+// ф-я открытия попапа добавления места
 function openAddPlacePopup(){
   openPopup(addPlacePopup);
 }
+
 function closeAddPlacePopup(){
   closePopup(addPlacePopup);
   formElementAddPlace.reset();
