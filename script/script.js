@@ -23,7 +23,6 @@ const jobInput = document.querySelector('.edit-profile__description');
 let profileTitle = profileTitleContainer.textContent;
 let profileSubtitle = profileSubtitleContainer.textContent;
 
-
 buttonAddPlaceOpen.addEventListener('click', openAddPlacePopup);
 buttonAddPlaceClose.addEventListener('click', closeAddPlacePopup);
 formElementAddPlace.addEventListener('submit', formSubmitHandlerAddPlace);
@@ -31,6 +30,7 @@ formElementAddPlace.addEventListener('submit', formSubmitHandlerAddPlace);
 photoPopup.querySelector('.edit-profile__close-btn').addEventListener('click', function(){
   // закрываем попап с фотографией
   closePopup(photoPopup);
+  document.removeEventListener('keyup', escPhotoPopup);
 });
 // слушатели событий для редактирования профиля
 editProfileButton.addEventListener('click', openPopUp);
@@ -48,6 +48,7 @@ popUp.addEventListener('click', (evt) => {
 photoPopup.addEventListener('click', (evt) => {
   if (evt.target === evt.currentTarget){
     closePopup(photoPopup);
+    document.removeEventListener('keyup', escPhotoPopup);
   }
 });
 // для попапа добавления места
@@ -57,47 +58,46 @@ addPlacePopup.addEventListener('click', (evt) => {
   }
 });
 
+// ф-я отслеживает нажатие кнопки ESC
+// для мод окна Добавления нового места
+function escAddPlacePopup(evt){
+  console.log(evt);
+  if (evt.key === 'Escape'){
+    closeAddPlacePopup();
+  }
+}
 
+// ф-я отслеживает нажатие кнопки ESC
+// для мод окна Редактирования профиля
+function escPopUp(evt){
+  console.log(evt);
+  if (evt.key === 'Escape'){
+    closePopUp();
+  }
+}
 
-
-
-// 1. открываем мод окно
-// добавляем слушатель ESC
-// 2. закрываем любым способом
-// удаляем слушатель
-
-/* список объектов попапов --- и их функций открытия --- закрытия
-addPlacePopup --- openAddPlacePopup() --- closeAddPlacePopup()
-popUp - попап редактирования профиля --- openPopUp --- closePopUp()
-photoPopup - попап фотографии --- openPopup(photoPopup) --- closePopup(photoPopup);
-
-при открытии попапа добавляем слушатель кнопки ESC
-при закрытии попапа удаляем слушатель ESC
-
-*/
-
-/*
-принцип действия
-- при открытии попапа создаем слушатель кнопки ESC
-- при нажатии на кнопку ESC запускаем ф-ю закрытия попапа и удаляем слушатель
-*/
-
-// слушатели кнопки ESC
-
-
-
-
-
-
+// ф-я отслеживает нажатие кнопки ESC
+// для мод окна фотографии
+function escPhotoPopup(evt){
+  console.log(evt);
+  if (evt.key === 'Escape'){
+    closePopup(photoPopup);
+    document.removeEventListener('keyup', escPhotoPopup);
+  }
+}
 
 // ф-я открытия попапа добавления места
 function openAddPlacePopup(){
   openPopup(addPlacePopup);
+  // создаем слушатель кнопки ESC
+  document.addEventListener('keyup', escAddPlacePopup);
 }
 
 function closeAddPlacePopup(){
   closePopup(addPlacePopup);
   formElementAddPlace.reset();
+  // удаляем слушатель кнопки ESC
+  document.removeEventListener('keyup', escAddPlacePopup);
 }
 
 // создаем функцию добавления карточки места
@@ -124,6 +124,7 @@ function addCard(title, pic){
     popupSubtitleElement.textContent = placeName;
     // открываем попап с фотографией
     openPopup(photoPopup);
+    document.addEventListener('keyup', escPhotoPopup);
   });
   // слушатель лайков
   cardElement.querySelector('.place__like-btn').addEventListener('click', function(evt){
@@ -179,6 +180,8 @@ function openPopUp(){
   // добавляем текущие атрибуты полям редактирования профиля
   nameInput.setAttribute('value', profileTitle);
   jobInput.setAttribute('value', profileSubtitle);
+  // создаем слушатель кнопки ESC
+  document.addEventListener('keyup', escPopUp);
 }
 
 // ф-я закрытия модального окна редактирования профиля
@@ -187,6 +190,8 @@ function closePopUp(){
   closePopup(popUp);
   // удаляем текущие атрибуты полям редактирования профиля
   formElement.reset();
+  // удаляем слушатель кнопки ESC
+  document.removeEventListener('keyup', escPopUp);
 }
 
 // ф-я отправки формы редактирования профиля
