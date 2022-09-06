@@ -48,11 +48,13 @@
     <div class="pop-up js-edit-profile-popup">
       <div class="edit-profile__container">
         <button type="button" class="edit-profile__close-btn fade-btn fade-btn_type_icon-bg-dark"></button>
-        <form class="edit-profile" action="#" method="POST" name="edit-profile">
+        <form class="edit-profile" action="#" method="POST" name="edit-profile" novalidate>
           <fieldset class="edit-profile__form-fieldset">
             <h3 class="edit-profile__title">Редактировать профиль</h3>
-            <input type="text" name="profile-title" placeholder="имя" class="edit-profile__name">
-            <input type="text" name="profile-subtitle" placeholder="описание" class="edit-profile__description">
+            <input type="text" name="profile-title" placeholder="имя" class="edit-profile__name form__input" id="profile-title-input" minlength="2" maxlength="40">
+            <span class="edit-profile__input-error profile-title-input-error"></span>
+            <input type="text" name="profile-subtitle" placeholder="описание" class="edit-profile__description form__input" id="profile-description-input" minlength="2" maxlength="200">
+            <span class="edit-profile__input-error profile-description-input-error"></span>
             <input type="submit" value="Сохранить" class="edit-profile__submit fade-btn fade-btn_type_text">
           </fieldset>
         </form>
@@ -65,8 +67,10 @@
         <form class="edit-profile" action="#" method="POST" name="edit-profile">
           <fieldset class="edit-profile__form-fieldset">
             <h3 class="edit-profile__title">Новое место</h3>
-            <input type="text" name="profile-title" placeholder="Название" class="edit-profile__name">
-            <input type="text" name="profile-subtitle" placeholder="Ссылка на картинку" class="edit-profile__description">
+            <input type="text" name="profile-title" placeholder="Название" class="edit-profile__name form__input" id="place-title-input" minlength="2" maxlength="40">
+            <span class="edit-profile__input-error place-title-input-error">текст ошибки</span>
+            <input type="url" name="profile-subtitle" placeholder="Ссылка на картинку" class="edit-profile__description form__input" id="place-link-input">
+            <span class="edit-profile__input-error place-link-input-error">текст ошибки</span>
             <input type="submit" value="Создать" class="edit-profile__submit fade-btn fade-btn_type_text">
           </fieldset>
         </form>
