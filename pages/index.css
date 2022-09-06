@@ -51,22 +51,7 @@
 @import url(../blocks/fade-btn/_type/fade-btn_type_icon-bg-light.css);
 @import url(../blocks/fade-btn/_type/fade-btn_type_text.css);
 
-/* временные стили */
-.form__input_type_error{
-  border-bottom: 1px solid #f00;
-  margin: 0;
-}
+@import url(../blocks/form/__input/form__input_type_error.css);
 
-.edit-profile__input-error{
-  color: #f00;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 15px;
-  display: none;
-  margin: 5px 0 13px 0;
-}
-.edit-profile__input-error_active{
-  display: block;
-}
+@import url(../blocks/edit-profile/__input-error/edit-profile__input-error.css);
+@import url(../blocks/edit-profile/__input-error/edit-profile__input-error_active.css);
