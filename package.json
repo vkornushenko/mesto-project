@@ -1,0 +1,38 @@
+{
+  "name": "mesto-project",
+  "version": "1.0.0",
+  "description": "Цель проекта - применение теоретических знаний верстки grid'ами и flex'ами, создание адаптивного дизайна с помощью медиа запросов для корректного отображения на мониторах и мобильных устройствах различного разрешения. Работа с дизайнн-макетом в Фигме. Вторая часть проекта включала в себя такой функционал как: открытие и закрытие попапа на JavaScript, редактирование информации на странице, автоматический вывод контента из массива на страницу с помощью циклов. ## Использованные технологии В проекте использовался HTML и CSS. Для работы были использованы гриды и флексбокс, медиазапросы, семантика и БЭМ, анимация, работа со встроенными элементами, формы. Во второй части работы был задействован JavaScript. ## Ссылка на GitHub Pages [https://vkornushenko.github.io/mesto-project/](https://vkornushenko.github.io/mesto-project/)",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vkornushenko/mesto-project.git"
+  },
+  "author": "Vladislav Korniushenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vkornushenko/mesto-project/issues"
+  },
+  "homepage": "https://github.com/vkornushenko/mesto-project#readme",
+  "devDependencies": {
+    "@babel/core": "^7.19.0",
+    "@babel/preset-env": "^7.19.0",
+    "autoprefixer": "^10.4.8",
+    "babel-loader": "^8.2.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.1",
+    "cssnano": "^5.1.13",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "postcss-loader": "^7.0.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.0"
+  },
+  "dependencies": {
+    "core-js": "^3.25.1"
+  }
+}
