@@ -4,12 +4,8 @@ import {addPlacePopup, photoPopup, formElementAddPlace} from '../components/card
 // элементы с именем и профессией профиля
 export const nameInput = document.querySelector('.edit-profile__name');
 export const jobInput = document.querySelector('.edit-profile__description');
-
-
-
 export const profileTitleContainer = document.querySelector('.profile__title');
 export const profileSubtitleContainer = document.querySelector('.profile__subtitle');
-
 
 // переменные с именем/профессией профиля
 export let profileTitle = profileTitleContainer.textContent;
@@ -60,8 +56,6 @@ export function closeAddPlacePopup(){
   // удаляем слушатель кнопки ESC
   document.removeEventListener('keyup', escAddPlacePopup);
 }
-
-
 
 // ф-я закрытия попапа
 export function closePopup(popupElement){
