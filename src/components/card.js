@@ -10,6 +10,10 @@ export const formElementAddPlace = addPlacePopup.querySelector('.edit-profile');
 export const editPlaceName = formElementAddPlace.querySelector('.edit-profile__name');
 export const editPlacePic = formElementAddPlace.querySelector('.edit-profile__description');
 
+const popupPicElement = photoPopup.querySelector('.photo-pop-up__image');
+const popupSubtitleElement = photoPopup.querySelector('.photo-pop-up__subtitle');
+const places = document.querySelector('.places');
+
 // создаем карточки из массива карточек
 initialCards.forEach(function(item){
   const cardElement = addCard(item.name, item.link);
@@ -33,14 +37,11 @@ export function addCard(title, pic){
   placePhotoElement.addEventListener('click', function(evt){
     const photoLink = evt.target.getAttribute('src');
     const placeName = evt.target.nextElementSibling.textContent;
-    const popupPicElement = photoPopup.querySelector('.photo-pop-up__image');
-    const popupSubtitleElement = photoPopup.querySelector('.photo-pop-up__subtitle');
     popupPicElement.setAttribute('src', photoLink);
     popupPicElement.setAttribute('alt', placeName);
     popupSubtitleElement.textContent = placeName;
     // открываем попап с фотографией
     openPopup(photoPopup);
-    document.addEventListener('keyup', escPhotoPopup);
   });
   // слушатель лайков
   cardElement.querySelector('.place__like-btn').addEventListener('click', function(evt){
@@ -55,7 +56,7 @@ export function addCard(title, pic){
 }
 
 // функция кнопки отправки формы при добавлении нового места
-export function formSubmitHandlerAddPlace(evt) {
+export function handleCardFormSubmit(evt) {
   evt.preventDefault();
   // получаем значения из инпутов
   const placeName = editPlaceName.value;
@@ -71,7 +72,6 @@ export function formSubmitHandlerAddPlace(evt) {
 
 // ф-я публикации карточки
 export function renderCard(cardElement, method){
-  const places = document.querySelector('.places');
   // отображаем на странице (с учетом последовательности)
   if(method === 'append'){
     places.append(cardElement);
