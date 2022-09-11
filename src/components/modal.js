@@ -18,9 +18,6 @@ export function closePopupByEscape(evt){
   if(evt.key === 'Escape'){
     // ищем открытый попап
     const openedPopup = document.querySelector('.pop-up_opened');
-    // сюда нужно добавить функцию закрытия попапа
-    // выводим в консоль найденный элемент
-    console.log(openedPopup);
     // закрываем открытый попап универсальной ф-ей закрытия
     closePopupUniversal(openedPopup);
   }
@@ -28,8 +25,17 @@ export function closePopupByEscape(evt){
 
 // новая универсальная ф-я открытия попапов
 export function openPopupUniversal(popupElement){
-  //console.log(popupElement);
   // общие действия
+  // слушатель кнопки закрытия попапа
+  popupElement.querySelector('.edit-profile__close-btn').addEventListener('click', () => {
+    closePopupUniversal(popupElement);
+  });
+  // слушатель клика по фону попапа
+  popupElement.addEventListener('mousedown', (evt) => {
+    if (evt.target === evt.currentTarget){
+      closePopupUniversal(popupElement);
+    }
+  });
   // добавляем слушатель кнопки ESC
   document.addEventListener('keyup', closePopupByEscape);
   // открываем нужный попап
