@@ -1,6 +1,4 @@
-import {addPlacePopup, photoPopup, formElementAddPlace} from '../components/card.js';
-import { isValid } from './validate.js';
-
+import {addPlacePopup, formElementAddPlace} from '../components/card.js';
 
 // элементы с именем и профессией профиля
 export const nameInput = document.querySelector('.edit-profile__name');
@@ -11,166 +9,63 @@ export const profileSubtitleContainer = document.querySelector('.profile__subtit
 // объект с именем/профессией профиля
 const user = {name: profileTitleContainer.textContent, job: profileSubtitleContainer.textContent};
 
+// элементы попапа профиля
 export const profilePopup = document.querySelector('.js-edit-profile-popup');
-
 export const formElement = profilePopup.querySelector('.edit-profile');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ф-я отслеживает нажатие кнопки ESC
-// для мод окна Добавления нового места
-export function escAddPlacePopup(evt){
-  console.log(evt);
-  if (evt.key === 'Escape'){
-    closeAddPlacePopup();
-  }
-}
-
-// ф-я отслеживает нажатие кнопки ESC
-// для мод окна Редактирования профиля
-export function escPopUp(evt){
-  console.log(evt);
-  if (evt.key === 'Escape'){
-    closeProfilePopup();
-  }
-}
-
-// ф-я отслеживает нажатие кнопки ESC
-// для мод окна фотографии
-export function escPhotoPopup(evt){
-  console.log(evt);
-  if (evt.key === 'Escape'){
-    closePopup(photoPopup);
-  }
-}
-
-
-
-// НОВОЕ
-// НОВОЕ
-// НОВОЕ
-
-// 111
-// написать универсальную функцию closePopup
-// вместо
-// closeAddPlacePopup()
-// closeProfilePopup()
-// closePopup(photoPopup)
-
-// 222
-// удалять и добавлять слушатели кнопки ESC функциями
-// document.addEventListener('keyup', closePopupByEscape);
-// document.removeEventListener('keyup', closePopupByEscape);
-
-
-function closePopupByEscape(evt){
+// ф-я закрытия попапа кнопкой ESC
+export function closePopupByEscape(evt){
   if(evt.key === 'Escape'){
     // ищем открытый попап
     const openedPopup = document.querySelector('.pop-up_opened');
     // сюда нужно добавить функцию закрытия попапа
-    // closePopup
+    // выводим в консоль найденный элемент
+    console.log(openedPopup);
+    // закрываем открытый попап универсальной ф-ей закрытия
+    closePopupUniversal(openedPopup);
   }
 }
 
-// pop-up_opened
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ф-я открытия попапа добавления места
-export function openAddPlacePopup(){
-  openPopup(addPlacePopup);
-  // создаем слушатель кнопки ESC
-  document.addEventListener('keyup', escAddPlacePopup);
-  const buttonElement = formElementAddPlace.querySelector('.edit-profile__submit');
-  buttonElement.setAttribute('disabled', true);
-}
-
-export function closeAddPlacePopup(){
-  closePopup(addPlacePopup);
-  formElementAddPlace.reset();
-  // удаляем слушатель кнопки ESC
-  document.removeEventListener('keyup', escAddPlacePopup);
-}
-
-// ф-я закрытия попапа
-export function closePopup(popupElement){
-  popupElement.classList.remove('pop-up_opened');
-  if (popupElement === photoPopup){
-    document.removeEventListener('keyup', escPhotoPopup);
-  }
-}
-
-// ф-я открытия попапа
-export function openPopup(popupElement){
+// новая универсальная ф-я открытия попапов
+export function openPopupUniversal(popupElement){
+  //console.log(popupElement);
+  // общие действия
+  // добавляем слушатель кнопки ESC
+  document.addEventListener('keyup', closePopupByEscape);
+  // открываем нужный попап
   popupElement.classList.add('pop-up_opened');
-  if (popupElement === photoPopup){
-    document.addEventListener('keyup', escPhotoPopup);
+  // уникальные действия
+  // для попапа профиля
+  if(popupElement === profilePopup){
+    // добавляем текущие атрибуты полям редактирования профиля
+    nameInput.setAttribute('value', user.name);
+    jobInput.setAttribute('value', user.job);
+  }
+  // для попапа места
+  if(popupElement === addPlacePopup){
+    // делаем кнопку отправки формы неактивной при открытии попапа
+    const buttonElement = popupElement.querySelector('.edit-profile__submit');
+    buttonElement.setAttribute('disabled', true);
   }
 }
 
-// ф-я открытия модального окна редактирования профиля
-export function openProfilePopup(){
-  // открываем попап редактирования профиля
-  openPopup(profilePopup);
-
-  // добавляем текущие атрибуты полям редактирования профиля
-  nameInput.setAttribute('value', user.name);
-  jobInput.setAttribute('value', user.job);
-  // создаем слушатель кнопки ESC
-  document.addEventListener('keyup', escPopUp);
-}
-
-// ф-я закрытия модального окна редактирования профиля
-export function closeProfilePopup(){
-  // закрываем попап редактирования профиля
-  closePopup(profilePopup);
-  // удаляем текущие атрибуты полям редактирования профиля
-  formElement.reset();
+// новая универсальная ф-я закрытия попапов
+export function closePopupUniversal(popupElement){
+  // общие функции
   // удаляем слушатель кнопки ESC
-  document.removeEventListener('keyup', escPopUp);
+  document.removeEventListener('keyup', closePopupByEscape);
+  // закрываем попап
+  popupElement.classList.remove('pop-up_opened');
+
+  // уникальные функции
+  // для попапа профиля
+  if(popupElement === profilePopup){
+    formElement.reset();
+  }
+  // для попапа места
+  if(popupElement === addPlacePopup){
+    formElementAddPlace.reset();
+  }
 }
 
 // ф-я отправки формы редактирования профиля
@@ -184,5 +79,5 @@ export function formSubmitHandler(evt) {
   profileTitleContainer.textContent = nameInput.value;
   profileSubtitleContainer.textContent = jobInput.value;
   // закрываем окно
-  closeProfilePopup();
+  closePopupUniversal(profilePopup);
 }

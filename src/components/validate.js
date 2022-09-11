@@ -1,6 +1,3 @@
-import {formElementAddPlace} from '../components/card.js';
-
-// BUTTON
 // ф-я для проверки кнопки
 export const hasInvalidInput = (inputList) => {
   // проверяем все инпуты
@@ -11,13 +8,6 @@ export const hasInvalidInput = (inputList) => {
   })
 };
 
-
-
-// INPUT
-
-
-
-
 // ф-я удаления стиля ошибки у валидного поля
 export const hideInputError = (form, input) => {
   //находим элемент с ошибкой
@@ -27,21 +17,6 @@ export const hideInputError = (form, input) => {
   errorElement.classList.remove('edit-profile__input-error_active');
   errorElement.textContent = '';
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export const enableValidationSettings = {
   formSelector: '.edit-profile',
@@ -145,17 +120,6 @@ export const enableValidation = (enableValidationSettings) => {
     setEventListeners(form);
   });
 };
-
-
-
-
-
-
-
-
-
-
-
 
 // REGULAR EXPRESSIONS
 // ф-я ищет запрещенные символы

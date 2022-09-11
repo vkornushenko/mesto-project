@@ -44,7 +44,7 @@
     </footer>
 
     <!-- Чтобы модальное окно открывалось, добавьте ему модификатор pop-up_opened -->
-    <div class="pop-up js-edit-profile-popup">
+    <div class="pop-up js-edit-profile-popup" id="edit-profile-popup">
       <div class="edit-profile__container">
         <button type="button" class="edit-profile__close-btn fade-btn fade-btn_type_icon-bg-dark"></button>
         <form class="edit-profile" action="#" method="POST" name="edit-profile" novalidate>
@@ -60,7 +60,7 @@
       </div>
     </div>
     <!-- попап нового места -->
-    <div class="pop-up js-add-place-popup">
+    <div class="pop-up js-add-place-popup" id="add-place-popup">
       <div class="edit-profile__container">
         <button type="button" class="edit-profile__close-btn fade-btn fade-btn_type_icon-bg-dark"></button>
         <form class="edit-profile" action="#" method="POST" name="edit-profile">
@@ -76,7 +76,7 @@
       </div>
     </div>
     <!-- попап с картинкой -->
-    <div class="photo-pop-up js-open-photo-popup">
+    <div class="photo-pop-up js-open-photo-popup" id="photo-popup">
       <div class="photo-pop-up__image-container">
         <button type="button" class="edit-profile__close-btn fade-btn fade-btn_type_icon-bg-dark"></button>
         <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg" alt="Архыз" class="photo-pop-up__image">

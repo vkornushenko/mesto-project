@@ -1,5 +1,5 @@
 import {initialCards} from '../components/cards.js';
-import {openPopup, escPhotoPopup, closePopup} from '../components/modal.js';
+import {closePopupUniversal, openPopupUniversal} from '../components/modal.js';
 
 export const cardTemplate = document.querySelector('#card').content;
 // элемент попапа с фото
@@ -10,7 +10,7 @@ export const formElementAddPlace = addPlacePopup.querySelector('.edit-profile');
 export const editPlaceName = formElementAddPlace.querySelector('.edit-profile__name');
 export const editPlacePic = formElementAddPlace.querySelector('.edit-profile__description');
 
-const popupPicElement = photoPopup.querySelector('.photo-pop-up__image');
+export const popupPicElement = photoPopup.querySelector('.photo-pop-up__image');
 const popupSubtitleElement = photoPopup.querySelector('.photo-pop-up__subtitle');
 const places = document.querySelector('.places');
 
@@ -33,16 +33,18 @@ export function addCard(title, pic){
   placePhotoElement.alt = title;
   placeNameElement.textContent = title;
   // полноразмерный просмотр фото
+
+
   // открытие попапа
-  placePhotoElement.addEventListener('click', function(evt){
+  placePhotoElement.addEventListener('click', (evt) => {
+    openPopupUniversal(photoPopup);
     const photoLink = evt.target.getAttribute('src');
     const placeName = evt.target.nextElementSibling.textContent;
     popupPicElement.setAttribute('src', photoLink);
     popupPicElement.setAttribute('alt', placeName);
     popupSubtitleElement.textContent = placeName;
-    // открываем попап с фотографией
-    openPopup(photoPopup);
   });
+
   // слушатель лайков
   cardElement.querySelector('.place__like-btn').addEventListener('click', function(evt){
     evt.target.classList.toggle('place__like-btn_pressed');
@@ -62,7 +64,7 @@ export function handleCardFormSubmit(evt) {
   const placeName = editPlaceName.value;
   const placePic = editPlacePic.value;
   // закрываем окно
-  closePopup(addPlacePopup);
+  closePopupUniversal(addPlacePopup);
   // делаем reset для формы
   formElementAddPlace.reset();
   // создаем карточку и отображаем ее
