@@ -2,7 +2,7 @@
 export const hasInvalidInput = (inputList) => {
   // проверяем все инпуты
   return inputList.some((input) => {
-    //console.log(input.validity.valid);
+    console.log(input.value);
     // если поле не валидно, колбэк вернет тру и обход массива прекратится
     return !input.validity.valid;
   })
@@ -23,8 +23,7 @@ export const enableValidationSettings = {
   inputSelector: '.form__input',
   submitButtonSelector: '.edit-profile__submit',
   inputErrorClass: 'form__input_type_error',
-  errorClass: 'edit-profile__input-error_active',
-  //inactiveButtonClass: 'popup__button_disabled',
+  errorClass: 'edit-profile__input-error_active'
 };
 
 // ф-я переключателя состояния кнопки
@@ -32,12 +31,10 @@ export const toggleButtonState = (inputList, buttonElement) => {
   // Если есть хотя бы один невалидный инпут
   if (hasInvalidInput(inputList)) {
     // делаем кнопку неактивной
-    //buttonElement.classList.add('edit-profile__submit_inactive');
     buttonElement.setAttribute('disabled', true);
   }
   else {
     // иначе сделай кнопку активной
-    //buttonElement.classList.remove('edit-profile__submit_inactive');
     buttonElement.removeAttribute('disabled');
   }
 };
@@ -61,16 +58,6 @@ export const isValid = (form, input) => {
   if(input.type != 'url'){
     isPatternMismatch(input);
   }
-  // проверяем значение инпута (ловим пустые инпуты)
-  console.log(input.value);
-  if (!input.value){
-    console.log('инпут пустой!!!');
-    console.log(form);
-    // вот кнопка
-    const button = form.querySelector(enableValidationSettings.submitButtonSelector);
-    console.log(button);
-    button.setAttribute('disabled', true);
-  }
   // условие для стандартных ошибок
   if (!input.validity.valid) {
     // поле не прошло валидацию
@@ -87,7 +74,6 @@ export const setEventListeners = (form) => {
   // Находим все поля внутри формы,
   // сделаем из них массив методом Array.from
   const inputList = Array.from(form.querySelectorAll(enableValidationSettings.inputSelector));
-  //console.log(inputList);
   // создаем элемент кнопки относительно текущей формы
   const buttonElement = form.querySelector(enableValidationSettings.submitButtonSelector);
   // Обойдём все элементы полученной коллекции
@@ -124,7 +110,7 @@ export const enableValidation = (enableValidationSettings) => {
 // REGULAR EXPRESSIONS
 // ф-я ищет запрещенные символы
 export const isPatternMismatch = (input) => {
-  console.log(input.type);
+  //console.log(input.type);
   // регулярное выражение ищет запрещенные символы
   const regex = /[^a-zа-яё \-]/i;
   // сообщение об ошибке
