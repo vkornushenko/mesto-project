@@ -1,13 +1,12 @@
-import {addPlacePopup, formElementAddPlace} from '../components/card.js';
-
 // элементы с именем и профессией профиля
 export const nameInput = document.querySelector('.edit-profile__name');
 export const jobInput = document.querySelector('.edit-profile__description');
 export const profileTitleContainer = document.querySelector('.profile__title');
 export const profileSubtitleContainer = document.querySelector('.profile__subtitle');
+const popups = document.querySelectorAll('.popup');
 
 // объект с именем/профессией профиля
-const user = {name: profileTitleContainer.textContent, job: profileSubtitleContainer.textContent};
+export const user = {name: profileTitleContainer.textContent, job: profileSubtitleContainer.textContent};
 
 // элементы попапа профиля
 export const profilePopup = document.querySelector('.js-edit-profile-popup');
@@ -23,35 +22,39 @@ export function closePopupByEscape(evt){
   }
 }
 
+
+
+
+// вешаем слушатели всем кнопкам закрытия попапов
+popups.forEach((popup) => {
+  popup.addEventListener('mousedown', (evt) => {
+    if (evt.target.classList.contains('pop-up_opened')) {
+      closePopupUniversal(popup);
+    }
+    if (evt.target.classList.contains('edit-profile__close-btn')) {
+      closePopupUniversal(popup);
+    }
+  });
+});
+
+
+
+
 // новая универсальная ф-я открытия попапов
 export function openPopupUniversal(popupElement){
   // общие действия
-  // слушатель кнопки закрытия попапа
-  popupElement.querySelector('.edit-profile__close-btn').addEventListener('click', () => {
-    closePopupUniversal(popupElement);
-  });
-  // слушатель клика по фону попапа
-  popupElement.addEventListener('mousedown', (evt) => {
-    if (evt.target === evt.currentTarget){
-      closePopupUniversal(popupElement);
-    }
-  });
   // добавляем слушатель кнопки ESC
   document.addEventListener('keyup', closePopupByEscape);
   // открываем нужный попап
   popupElement.classList.add('pop-up_opened');
-  // уникальные действия
-  // для попапа профиля
-  if(popupElement === profilePopup){
-    // добавляем текущие атрибуты полям редактирования профиля
-    nameInput.setAttribute('value', user.name);
-    jobInput.setAttribute('value', user.job);
-  }
-  // для попапа места
-  if(popupElement === addPlacePopup){
-    // делаем кнопку отправки формы неактивной при открытии попапа
-    const buttonElement = popupElement.querySelector('.edit-profile__submit');
-    buttonElement.setAttribute('disabled', true);
+}
+
+// функция очищает форму если она есть у попапа
+function resetFormIfIsset(popupElement){
+  const form = popupElement.querySelector('.edit-profile');
+  //console.log(form);
+  if(form){
+    form.reset();
   }
 }
 
@@ -62,20 +65,12 @@ export function closePopupUniversal(popupElement){
   document.removeEventListener('keyup', closePopupByEscape);
   // закрываем попап
   popupElement.classList.remove('pop-up_opened');
-
-  // уникальные функции
-  // для попапа профиля
-  if(popupElement === profilePopup){
-    formElement.reset();
-  }
-  // для попапа места
-  if(popupElement === addPlacePopup){
-    formElementAddPlace.reset();
-  }
+  // очищаем форму попапа если она есть
+  resetFormIfIsset(popupElement);
 }
 
 // ф-я отправки формы редактирования профиля
-export function formSubmitHandler(evt) {
+export function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   // сохраняем значения имени и профиля при отправке формы
   // они отображаются в попапе профиля при повторном открытии

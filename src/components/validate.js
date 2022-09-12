@@ -2,19 +2,21 @@
 export const hasInvalidInput = (inputList) => {
   // проверяем все инпуты
   return inputList.some((input) => {
-    console.log(input.value);
+    //console.log(input.value);
     // если поле не валидно, колбэк вернет тру и обход массива прекратится
     return !input.validity.valid;
   })
 };
+
+
 
 // ф-я удаления стиля ошибки у валидного поля
 export const hideInputError = (form, input) => {
   //находим элемент с ошибкой
   const errorElement = form.querySelector(`.${input.id}-error`);
   // удаляем стили ошибок и скрываем сообщение
-  input.classList.remove('form__input_type_error');
-  errorElement.classList.remove('edit-profile__input-error_active');
+  input.classList.remove(enableValidationSettings.inputErrorClass);
+  errorElement.classList.remove(enableValidationSettings.errorClass);
   errorElement.textContent = '';
 }
 
