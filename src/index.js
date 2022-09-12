@@ -1,4 +1,4 @@
-import {user, closePopupByEscape, openPopupUniversal, closePopupUniversal, profilePopup, formElement, nameInput, jobInput, profileTitleContainer, profileSubtitleContainer, handleProfileFormSubmit} from './components/modal.js'
+import {resetFormIfIsset, user, closePopupByEscape, openPopupUniversal, closePopupUniversal, profilePopup, formElement, nameInput, jobInput, profileTitleContainer, profileSubtitleContainer, handleProfileFormSubmit} from './components/modal.js'
 import {hasInvalidInput, toggleButtonState, isValid, showInputError, hideInputError, setEventListeners, enableValidation, enableValidationSettings, isPatternMismatch, } from './components/validate.js';
 import {popupPicElement, cardTemplate, photoPopup, editPlaceName, addPlacePopup, editPlacePic, formElementAddPlace, addCard, handleCardFormSubmit, renderCard} from './components/card.js';
 import './pages/index.css'; // добавьте импорт главного файла стилей
@@ -24,6 +24,8 @@ buttonAddPlaceOpen.addEventListener('click', () => {
 editProfileButton.addEventListener('click', () => {
   openPopupUniversal(profilePopup);
   setValuesToProfileInputs();
+  // очищаем форму попапа если она есть
+  resetFormIfIsset(profilePopup);
 });
 
 

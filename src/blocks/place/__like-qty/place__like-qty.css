@@ -1,0 +1,10 @@
+.place__like-qty{
+  color: #000;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  margin: 3px 0 22px 0;
+  grid-area: place__like-qty;
+  justify-self: center;
+  align-self: center;
+}

@@ -21,6 +21,7 @@
 @import url(../blocks/logo/logo.css);
 
 @import url(../blocks/place/__like-btn/place__like-btn.css);
+@import url(../blocks/place/__like-qty/place__like-qty.css);
 @import url(../blocks/place/__like-btn/_pressed/place__like-button_pressed.css);
 @import url(../blocks/place/__delete-btn/place__delete-btn.css);
 @import url(../blocks/place/__name/place__name.css);

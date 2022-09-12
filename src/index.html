@@ -24,19 +24,7 @@
         <button type="button" class="profile__edit-button fade-btn fade-btn_type_icon-bg-dark" aria-label="edit profile"></button>
         <button type="button" class="profile__add-button fade-btn fade-btn_type_icon-bg-dark"  aria-label="add new place"></button>
       </section>
-
-      <section class="places">
-
-        <!--
-        <div class="place">
-          <img class="place__photo" src="images/karachaevsk.jpg" alt="Карачаевск">
-          <h2 class="place__name text-shortener">Карачаевск</h2>
-          <button type="button" class="place__like-btn fade-btn fade-btn_type_icon-bg-light" aria-label="like"></button>
-          <button type="button" class="place__delete-btn" aria-label="delete"></button>
-        </div>
-        -->
-
-      </section>
+      <section class="places"></section>
     </main>
 
     <footer class="footer">
@@ -90,6 +78,8 @@
     <img class="place__photo">
     <h2 class="place__name text-shortener"></h2>
     <button type="button" class="place__like-btn fade-btn fade-btn_type_icon-bg-light" aria-label="like"></button>
+    <span class="place__like-qty">123</span>
+    <!-- если карточка не моя добавляем кнопке атрибут disabled="true" -->
     <button type="button" class="place__delete-btn fade-btn fade-btn_type_icon-bg-dark" aria-label="delete"></button>
   </div>
 </template>

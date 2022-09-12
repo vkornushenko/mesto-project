@@ -50,7 +50,7 @@ export function openPopupUniversal(popupElement){
 }
 
 // функция очищает форму если она есть у попапа
-function resetFormIfIsset(popupElement){
+export function resetFormIfIsset(popupElement){
   const form = popupElement.querySelector('.edit-profile');
   //console.log(form);
   if(form){
@@ -65,8 +65,7 @@ export function closePopupUniversal(popupElement){
   document.removeEventListener('keyup', closePopupByEscape);
   // закрываем попап
   popupElement.classList.remove('pop-up_opened');
-  // очищаем форму попапа если она есть
-  resetFormIfIsset(popupElement);
+
 }
 
 // ф-я отправки формы редактирования профиля
