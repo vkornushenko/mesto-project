@@ -11,6 +11,10 @@
   background-size: contain;
 }
 
+.place__delete-btn:disabled{
+  display: none;
+}
+
 .place__delete-btn:hover{
   cursor: pointer;
   opacity: 0.6;

@@ -8,8 +8,6 @@ export const hasInvalidInput = (inputList) => {
   })
 };
 
-
-
 // ф-я удаления стиля ошибки у валидного поля
 export const hideInputError = (form, input) => {
   //находим элемент с ошибкой
@@ -27,6 +25,24 @@ export const enableValidationSettings = {
   inputErrorClass: 'form__input_type_error',
   errorClass: 'edit-profile__input-error_active'
 };
+
+// функция отображения процесса загрузки для функций
+// sendCard
+// sendAvatar
+// sendUser
+export function renderLoading(isLoading){
+  const loadingButton = document.querySelector(enableValidationSettings.submitButtonSelector);
+  if(isLoading){
+    // меняем текст кнопки на "сохранение..."
+    loadingButton.value = 'Сохранение...';
+    //console.log('Сохранение...');
+  }
+  else{
+    // меняем текст кнопки обратно на "сохранить"
+    loadingButton.value = 'Сохранить';
+    //console.log('Сохранить');
+  }
+}
 
 // ф-я переключателя состояния кнопки
 export const toggleButtonState = (inputList, buttonElement) => {
@@ -112,14 +128,12 @@ export const enableValidation = (enableValidationSettings) => {
 // REGULAR EXPRESSIONS
 // ф-я ищет запрещенные символы
 export const isPatternMismatch = (input) => {
-  //console.log(input.type);
   // регулярное выражение ищет запрещенные символы
   const regex = /[^a-zа-яё \-]/i;
   // сообщение об ошибке
   const patternErrorMessage = 'Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы';
   // получаем значения поля инпут
   const string = input.value;
-
   // проверяем знач. импута на соответствие паттерну
   // если выявили несоответствие паттерну
   if(string.match(regex)){

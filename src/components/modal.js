@@ -1,3 +1,6 @@
+import {sendUser, sendAvatar} from './api.js';
+import {renderLoading} from '../components/validate.js';
+
 // элементы с именем и профессией профиля
 export const nameInput = document.querySelector('.edit-profile__name');
 export const jobInput = document.querySelector('.edit-profile__description');
@@ -12,6 +15,15 @@ export const user = {name: profileTitleContainer.textContent, job: profileSubtit
 export const profilePopup = document.querySelector('.js-edit-profile-popup');
 export const formElement = profilePopup.querySelector('.edit-profile');
 
+// элемент с картинкой аватара
+export const avatarPicElement = document.querySelector('.profile__avatar');
+// элементы попапа смены аватара
+const avatarButton = document.querySelector('.profile__edit-avatar-button');
+const avatarPopup = document.querySelector('.js-set-new-avatar-popup');
+export const avatarFormElement = avatarPopup.querySelector('.edit-profile');
+export const avatarLinkInput = document.querySelector('.avatar-url');
+//console.log(avatarLinkInput);
+
 // ф-я закрытия попапа кнопкой ESC
 export function closePopupByEscape(evt){
   if(evt.key === 'Escape'){
@@ -21,9 +33,6 @@ export function closePopupByEscape(evt){
     closePopupUniversal(openedPopup);
   }
 }
-
-
-
 
 // вешаем слушатели всем кнопкам закрытия попапов
 popups.forEach((popup) => {
@@ -36,9 +45,6 @@ popups.forEach((popup) => {
     }
   });
 });
-
-
-
 
 // новая универсальная ф-я открытия попапов
 export function openPopupUniversal(popupElement){
@@ -65,12 +71,26 @@ export function closePopupUniversal(popupElement){
   document.removeEventListener('keyup', closePopupByEscape);
   // закрываем попап
   popupElement.classList.remove('pop-up_opened');
-
+  resetFormIfIsset(popupElement);
 }
 
 // ф-я отправки формы редактирования профиля
 export function handleProfileFormSubmit(evt) {
   evt.preventDefault();
+  // вызываем ф-ю загрузки перед отправкой формы
+  renderLoading(true);
+  // отправляем на сервер данные юзера
+  sendUser(nameInput.value, jobInput.value)
+    .then((result) => {
+      // обрабатываем результат
+      //console.log(result);
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    })
+    .finally(() => {
+      renderLoading(false);
+    });
   // сохраняем значения имени и профиля при отправке формы
   // они отображаются в попапе профиля при повторном открытии
   user.name = nameInput.value;
@@ -80,4 +100,37 @@ export function handleProfileFormSubmit(evt) {
   profileSubtitleContainer.textContent = jobInput.value;
   // закрываем окно
   closePopupUniversal(profilePopup);
+}
+
+// слушатель кнопки смены аватарки
+avatarButton.addEventListener('click', (evt) => {
+  openPopupUniversal(avatarPopup);
+});
+
+// ф-я отправки формы смены аватарки
+export function handleAvatarFormSubmit(evt) {
+  evt.preventDefault();
+  // получаем значения из инпутов
+  //const avatar = .value;
+  // вызываем ф-ю загрузки перед отправкой формы
+  renderLoading(true);
+  // отправляем ссылку на новый  аватар на сервер
+  sendAvatar(avatarLinkInput.value)
+    .then((result) => {
+      // обрабатываем результат
+      console.log(result);
+      //const avatarUrl = result.avatar;
+      //console.log(avatarUrl);
+      //console.log(avatarPicElement);
+      avatarPicElement.style.backgroundImage = `url(${avatarUrl})`;
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    })
+    .finally(() => {
+      renderLoading(false);
+    });
+
+  // закрываем окно попапа аватара
+  closePopupUniversal(avatarPopup);
 }

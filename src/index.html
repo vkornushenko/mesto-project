@@ -18,6 +18,7 @@
 
     <main>
       <section class="profile">
+        <div class="profile__edit-avatar-button unfade-btn"></div>
         <div class="profile__avatar"></div>
         <h1 class="profile__title text-shortener">Жак-Ив Кусто</h1>
         <p class="profile__subtitle text-shortener">Исследователь океана</p>
@@ -71,6 +72,21 @@
         <h3 class="photo-pop-up__subtitle">Архыз</h3>
       </div>
     </div>
+    <!-- попап редактирования аватарки -->
+    <div class="pop-up js-set-new-avatar-popup popup" id="add-place-popup">
+      <div class="edit-profile__container">
+        <button type="button" class="edit-profile__close-btn fade-btn fade-btn_type_icon-bg-dark"></button>
+        <form class="edit-profile" action="#" method="POST" name="edit-profile">
+          <fieldset class="edit-profile__form-fieldset">
+            <h3 class="edit-profile__title">Обновить аватар</h3>
+            <input type="url" name="profile-subtitle" placeholder="Ссылка на картинку аватара" class="edit-profile__description avatar-url form__input" id="avatar-link-input" required>
+            <span class="edit-profile__input-error avatar-link-input-error">текст ошибки</span>
+            <input type="submit" value="Сохранить" class="edit-profile__submit fade-btn fade-btn_type_text">
+          </fieldset>
+        </form>
+      </div>
+    </div>
+
   </div>
 
 <template id="card">
@@ -83,9 +99,5 @@
     <button type="button" class="place__delete-btn fade-btn fade-btn_type_icon-bg-dark" aria-label="delete"></button>
   </div>
 </template>
-
-<!--
-<script type="module" src="src/index.js"></script>
--->
 </body>
 </html>
