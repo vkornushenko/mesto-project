@@ -7,14 +7,14 @@ export const cardTemplate = document.querySelector('#card').content;
 // элемент попапа с фото
 export const photoPopup = document.querySelector('.js-open-photo-popup');
 
-export const addPlacePopup = document.querySelector('.js-add-place-popup');
-export const formElementAddPlace = addPlacePopup.querySelector('.edit-profile');
+export const buttonOpenPopupCard = document.querySelector('.js-add-place-popup');
+export const formElementAddPlace = buttonOpenPopupCard.querySelector('.edit-profile');
 export const editPlaceName = formElementAddPlace.querySelector('.edit-profile__name');
 export const editPlacePic = formElementAddPlace.querySelector('.edit-profile__description');
 
 export const popupPicElement = photoPopup.querySelector('.photo-pop-up__image');
 const popupSubtitleElement = photoPopup.querySelector('.photo-pop-up__subtitle');
-const places = document.querySelector('.places');
+export const places = document.querySelector('.places');
 
 // функция проверки владением карточки
 function amItheCardOwner(cardOwnerId, myId){
@@ -28,10 +28,19 @@ function amItheCardOwner(cardOwnerId, myId){
   }
 }
 
+
+
+
+
+
+
+
+
 // создаем функцию добавления карточки места
 export function addCard(title, pic, likes, cardOwnerId, cardId){
   // клонируем содержимое шаблона карточки
   const cardElement = cardTemplate.querySelector('.place').cloneNode(true);
+
   // элемент фотографии карточки места
   const placePhotoElement = cardElement.querySelector('.place__photo');
   // элемент заголовка карточки места
@@ -62,7 +71,7 @@ export function addCard(title, pic, likes, cardOwnerId, cardId){
 
   // не отображаем корзину если мы не владельцы карточки
   if(!amItheCardOwner(cardOwnerId, config.userId)){
-    placeDeleteButton.setAttribute('disabled', true);
+    placeDeleteButton.remove();
   }
 
   // полноразмерный просмотр фото
@@ -94,6 +103,7 @@ export function addCard(title, pic, likes, cardOwnerId, cardId){
   });
   // слушатель удаления места
   placeDeleteButton.addEventListener('click', function(evt){
+
     // вместо этой функции вызвать удаление карточки
     deleteCard(cardId)
       .then((result) => {
@@ -103,10 +113,16 @@ export function addCard(title, pic, likes, cardOwnerId, cardId){
       .catch((err) => {
         console.log(err); // выводим ошибку в консоль
       });
+
   });
   // возвращаем готовый элемент с карточкой места
   return cardElement;
 }
+
+
+
+
+
 
 // в зависимости от состояния кнопки выбираем метод
 // PUT
@@ -121,44 +137,4 @@ function selectingLikeMethod(element){
     method = 'PUT';
   }
   return method;
-}
-
-// функция кнопки отправки формы при добавлении нового места
-export function handleCardFormSubmit(evt) {
-  evt.preventDefault();
-  // получаем значения из инпутов
-  const placeName = editPlaceName.value;
-  const placePic = editPlacePic.value;
-  // закрываем окно
-  closePopupUniversal(addPlacePopup);
-  // делаем reset для формы
-  formElementAddPlace.reset();
-
-  // вызываем ф-ю загрузки перед отправкой формы
-  renderLoading(true);
-  // отправляем данные новой карточки на сервер
-  sendCard(placeName, placePic)
-    .then((result) => {
-      // обрабатываем результат
-      const cardElement = addCard(result.name, result.link, result.likes, result.owner._id, result._id);
-      // отображаем карточку ответа с сервера на сайте
-      renderCard(cardElement, 'prepend');
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    })
-    .finally(() => {
-      renderLoading(false);
-    });
-}
-
-// ф-я публикации карточки
-export function renderCard(cardElement, method){
-  // отображаем на странице (с учетом последовательности)
-  if(method === 'append'){
-    places.append(cardElement);
-  }
-  else{
-    places.prepend(cardElement);
-  }
 }

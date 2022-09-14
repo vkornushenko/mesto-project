@@ -74,63 +74,7 @@ export function closePopupUniversal(popupElement){
   resetFormIfIsset(popupElement);
 }
 
-// ф-я отправки формы редактирования профиля
-export function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  // вызываем ф-ю загрузки перед отправкой формы
-  renderLoading(true);
-  // отправляем на сервер данные юзера
-  sendUser(nameInput.value, jobInput.value)
-    .then((result) => {
-      // обрабатываем результат
-      //console.log(result);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    })
-    .finally(() => {
-      renderLoading(false);
-    });
-  // сохраняем значения имени и профиля при отправке формы
-  // они отображаются в попапе профиля при повторном открытии
-  user.name = nameInput.value;
-  user.job = jobInput.value;
-  // присваиваем имя профиля на странице
-  profileTitleContainer.textContent = nameInput.value;
-  profileSubtitleContainer.textContent = jobInput.value;
-  // закрываем окно
-  closePopupUniversal(profilePopup);
-}
-
 // слушатель кнопки смены аватарки
 avatarButton.addEventListener('click', (evt) => {
   openPopupUniversal(avatarPopup);
 });
-
-// ф-я отправки формы смены аватарки
-export function handleAvatarFormSubmit(evt) {
-  evt.preventDefault();
-  // получаем значения из инпутов
-  //const avatar = .value;
-  // вызываем ф-ю загрузки перед отправкой формы
-  renderLoading(true);
-  // отправляем ссылку на новый  аватар на сервер
-  sendAvatar(avatarLinkInput.value)
-    .then((result) => {
-      // обрабатываем результат
-      console.log(result);
-      //const avatarUrl = result.avatar;
-      //console.log(avatarUrl);
-      //console.log(avatarPicElement);
-      avatarPicElement.style.backgroundImage = `url(${avatarUrl})`;
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    })
-    .finally(() => {
-      renderLoading(false);
-    });
-
-  // закрываем окно попапа аватара
-  closePopupUniversal(avatarPopup);
-}
