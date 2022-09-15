@@ -4,8 +4,7 @@ export const config = {
   headers: {
     authorization: 'fda1a505-797d-4787-a7e6-de98cdd912fd',
     'Content-Type': 'application/json'
-  },
-  userId: 'e084eac150c6f2e49b728d50'
+  }
 }
 
 // ф-я получает карточки с сервера

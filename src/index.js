@@ -36,6 +36,9 @@ avatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
 // Вызовем функцию
 enableValidation(enableValidationSettings);
 
+// объявляем глобальную переменную userId
+let userId;
+
 Promise.all([getUser(), getInitialCards()])
   .then(values => {
     // получаем два массива (юзер + карточки):
@@ -47,6 +50,9 @@ Promise.all([getUser(), getInitialCards()])
     user.avatar = values[0].avatar;
     user._id = values[0]._id;
     user.cohort = values[0].cohort;
+
+    userId = values[0]._id;
+
     // редактируем DOM элементы
     profileTitleContainer.textContent = user.name;
     profileSubtitleContainer.textContent = user.job;
@@ -58,7 +64,7 @@ Promise.all([getUser(), getInitialCards()])
     const initialCards = values[1];
     // создаем карточки из массива карточек
     initialCards.forEach(function(item){
-      const cardElement = addCard(item.name, item.link, item.likes, item.owner._id, item._id, handleLikeCard, handleDeleteCard);
+      const cardElement = addCard(item.name, item.link, item.likes, item.owner._id, item._id, handleLikeCard, handleDeleteCard, userId);
       renderCard(cardElement, 'append');
     });
 
@@ -84,7 +90,7 @@ function handleCardFormSubmit(evt) {
   sendCard(placeName, placePic)
     .then((result) => {
       // обрабатываем результат
-      const cardElement = addCard(result.name, result.link, result.likes, result.owner._id, result._id, handleLikeCard, handleDeleteCard);
+      const cardElement = addCard(result.name, result.link, result.likes, result.owner._id, result._id, handleLikeCard, handleDeleteCard, userId);
       // отображаем карточку ответа с сервера на сайте
       renderCard(cardElement, 'prepend');
     })

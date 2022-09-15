@@ -29,7 +29,7 @@ function amItheCardOwner(cardOwnerId, myId){
 }
 
 // создаем функцию добавления карточки места
-export function addCard(title, pic, likes, cardOwnerId, cardId, handleLikeCard, handleDeleteCard){
+export function addCard(title, pic, likes, cardOwnerId, cardId, handleLikeCard, handleDeleteCard, userId){
   // клонируем содержимое шаблона карточки
   const cardElement = cardTemplate.querySelector('.place').cloneNode(true);
 
@@ -47,7 +47,7 @@ export function addCard(title, pic, likes, cardOwnerId, cardId, handleLikeCard, 
   // проверяем ставили мы лайк этой карточке или нет
   // и подсвечиваем кнопку если ставили
   likes.forEach(function(item){
-    if(item._id === config.userId){
+    if(item._id === userId){
       placeLikeButton.classList.add('place__like-btn_pressed');
       return;
     }
@@ -62,7 +62,7 @@ export function addCard(title, pic, likes, cardOwnerId, cardId, handleLikeCard, 
   placeLikeQtyElement.textContent = likeQty;
 
   // не отображаем корзину если мы не владельцы карточки
-  if(!amItheCardOwner(cardOwnerId, config.userId)){
+  if(!amItheCardOwner(cardOwnerId, userId)){
     placeDeleteButton.remove();
   }
 
