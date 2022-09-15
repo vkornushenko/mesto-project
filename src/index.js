@@ -1,7 +1,7 @@
 import {user, closePopupByEscape, openPopupUniversal, closePopupUniversal, profilePopup, formElement, nameInput, jobInput, profileTitleContainer, profileSubtitleContainer, avatarFormElement, avatarPicElement} from './components/modal.js'
 import {hasInvalidInput, toggleButtonState, isValid, showInputError, hideInputError, setEventListeners, enableValidation, enableValidationSettings, isPatternMismatch, renderLoading} from './components/validate.js';
 import {popupPicElement, cardTemplate, photoPopup, editPlaceName, editPlacePic, buttonOpenPopupCard, formElementAddPlace, addCard, places} from './components/card.js';
-import {getCards, sendCard, deleteCard, setLike, unsetLike, changeAvatar, config, getInitialCards, getUser, sendUser} from './components/api.js';
+import {getCards, sendCard, deleteCard, setLike, unsetLike, changeAvatar, config, getInitialCards, getUser, sendUser, like} from './components/api.js';
 import './pages/index.css'; // добавьте импорт главного файла стилей
 
 // кнопки открытия
@@ -10,8 +10,8 @@ const editProfileButton = document.querySelector('.profile__edit-button');
 
 // функция присваивает инпутам значения header и subtitle профиля
 function setValuesToProfileInputs(){
-  nameInput.setAttribute('value', user.name);
-  jobInput.setAttribute('value', user.job);
+  nameInput.setAttribute('value', profileTitleContainer.textContent);
+  jobInput.setAttribute('value', profileSubtitleContainer.textContent);
 }
 
 // слушатель кнопки добавления места
@@ -24,9 +24,8 @@ buttonAddPlaceOpen.addEventListener('click', () => {
 // слушатель кнопки открытия попапа профиля
 editProfileButton.addEventListener('click', () => {
   openPopupUniversal(profilePopup);
+  // записываем актуальные данные из DOM
   setValuesToProfileInputs();
-  // очищаем форму попапа если она есть
-  resetFormIfIsset(profilePopup);
 });
 
 // слушатели субмитов
@@ -37,15 +36,11 @@ avatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
 // Вызовем функцию
 enableValidation(enableValidationSettings);
 
-
-
 Promise.all([getUser(), getInitialCards()])
   .then(values => {
     // получаем два массива (юзер + карточки):
     // данные пользователя
     const user = values[0];
-
-
     // обрабатываем результат пользователя
     user.name = values[0].name;
     user.job = values[0].about;
@@ -56,11 +51,14 @@ Promise.all([getUser(), getInitialCards()])
     profileTitleContainer.textContent = user.name;
     profileSubtitleContainer.textContent = user.job;
     avatarPicElement.style.backgroundImage = `url(${user.avatar})`;
+    // записываем данные в инпуты тоже
+    nameInput.setAttribute('value', user.name);
+    jobInput.setAttribute('value', user.job);
     // обрабатываем результат карточек
     const initialCards = values[1];
     // создаем карточки из массива карточек
     initialCards.forEach(function(item){
-      const cardElement = addCard(item.name, item.link, item.likes, item.owner._id, item._id);
+      const cardElement = addCard(item.name, item.link, item.likes, item.owner._id, item._id, handleLikeCard, handleDeleteCard);
       renderCard(cardElement, 'append');
     });
 
@@ -68,15 +66,6 @@ Promise.all([getUser(), getInitialCards()])
   .catch((err) => {
     console.log(err);
   });
-
-
-
-
-
-
-
-
-
 
 // функция кнопки отправки формы при добавлении нового места
 function handleCardFormSubmit(evt) {
@@ -95,7 +84,7 @@ function handleCardFormSubmit(evt) {
   sendCard(placeName, placePic)
     .then((result) => {
       // обрабатываем результат
-      const cardElement = addCard(result.name, result.link, result.likes, result.owner._id, result._id);
+      const cardElement = addCard(result.name, result.link, result.likes, result.owner._id, result._id, handleLikeCard, handleDeleteCard);
       // отображаем карточку ответа с сервера на сайте
       renderCard(cardElement, 'prepend');
     })
@@ -106,7 +95,6 @@ function handleCardFormSubmit(evt) {
       renderLoading(false);
     });
 }
-
 
 // ф-я публикации карточки
 function renderCard(cardElement, method){
@@ -119,7 +107,6 @@ function renderCard(cardElement, method){
   }
 }
 
-
 // функция очищает форму если она есть у попапа
 function resetFormIfIsset(popupElement){
   const form = popupElement.querySelector('.edit-profile');
@@ -128,16 +115,6 @@ function resetFormIfIsset(popupElement){
     form.reset();
   }
 }
-
-
-
-
-
-
-
-
-
-
 
 // ф-я отправки формы редактирования профиля
 function handleProfileFormSubmit(evt) {
@@ -167,7 +144,6 @@ function handleProfileFormSubmit(evt) {
   closePopupUniversal(profilePopup);
 }
 
-
 // ф-я отправки формы смены аватарки
 export function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
@@ -195,3 +171,15 @@ export function handleAvatarFormSubmit(evt) {
   // закрываем окно попапа аватара
   closePopupUniversal(avatarPopup);
 }
+
+function handleLikeCard(method, cardId){
+  // отправляем на сервер запрос на добавление или снятие лайка
+  return like(method, cardId)
+}
+
+function handleDeleteCard(cardId){
+  // удаляем карточку по ID
+  return deleteCard(cardId)
+}
+
+

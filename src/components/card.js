@@ -28,16 +28,8 @@ function amItheCardOwner(cardOwnerId, myId){
   }
 }
 
-
-
-
-
-
-
-
-
 // создаем функцию добавления карточки места
-export function addCard(title, pic, likes, cardOwnerId, cardId){
+export function addCard(title, pic, likes, cardOwnerId, cardId, handleLikeCard, handleDeleteCard){
   // клонируем содержимое шаблона карточки
   const cardElement = cardTemplate.querySelector('.place').cloneNode(true);
 
@@ -91,21 +83,21 @@ export function addCard(title, pic, likes, cardOwnerId, cardId){
     const method = selectingLikeMethod(evt.target);
     // меняем ее состояние при нажатии
     evt.target.classList.toggle('place__like-btn_pressed');
-    // отправляем на сервер запрос на добавление или снятие лайка
-    like(method, cardId)
-    .then((result) => {
+
+    handleLikeCard(method, cardId)
+      .then((result) => {
       // обновляем счетчик карточки лайков в соответствии с ответом сервера
       placeLikeQtyElement.textContent = result.likes.length;
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+      })
+      .catch((err) => {
+        console.log(err); // выводим ошибку в консоль
+      });;
+
   });
+
   // слушатель удаления места
   placeDeleteButton.addEventListener('click', function(evt){
-
-    // вместо этой функции вызвать удаление карточки
-    deleteCard(cardId)
+    handleDeleteCard(cardId)
       .then((result) => {
         // работаем с ответом
         evt.target.closest('.place').remove();
@@ -113,16 +105,10 @@ export function addCard(title, pic, likes, cardOwnerId, cardId){
       .catch((err) => {
         console.log(err); // выводим ошибку в консоль
       });
-
   });
   // возвращаем готовый элемент с карточкой места
   return cardElement;
 }
-
-
-
-
-
 
 // в зависимости от состояния кнопки выбираем метод
 // PUT
