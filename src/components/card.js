@@ -2,6 +2,7 @@
 import {closePopupUniversal, openPopupUniversal} from '../components/modal.js';
 import {config, deleteCard, like, sendCard} from '../components/api.js';
 import {renderLoading} from '../components/validate.js';
+import {handleLikeCard, handleDeleteCard} from '../index.js';
 
 export const cardTemplate = document.querySelector('#card').content;
 // элемент попапа с фото
@@ -29,7 +30,7 @@ function amItheCardOwner(cardOwnerId, myId){
 }
 
 // создаем функцию добавления карточки места
-export function addCard(title, pic, likes, cardOwnerId, cardId, handleLikeCard, handleDeleteCard, userId){
+export function addCard(title, pic, likes, cardOwnerId, cardId, /*handleLikeCard, handleDeleteCard,*/ userId){
   // клонируем содержимое шаблона карточки
   const cardElement = cardTemplate.querySelector('.place').cloneNode(true);
 
@@ -60,6 +61,8 @@ export function addCard(title, pic, likes, cardOwnerId, cardId, handleLikeCard, 
   placePhotoElement.alt = title;
   placeNameElement.textContent = title;
   placeLikeQtyElement.textContent = likeQty;
+  // задаем id элементу места
+  cardElement.setAttribute('id', cardId);
 
   // не отображаем корзину если мы не владельцы карточки
   if(!amItheCardOwner(cardOwnerId, userId)){
@@ -77,43 +80,28 @@ export function addCard(title, pic, likes, cardOwnerId, cardId, handleLikeCard, 
     popupSubtitleElement.textContent = placeName;
   });
 
+
+
   // слушатель лайков
-  placeLikeButton.addEventListener('click', function(evt){
-    // проверяем состояние кнопки
-    const method = selectingLikeMethod(evt.target);
-    // меняем ее состояние при нажатии
-    evt.target.classList.toggle('place__like-btn_pressed');
+  placeLikeButton.addEventListener('click', () => handleLikeCard(cardId));
 
-    handleLikeCard(method, cardId)
-      .then((result) => {
-      // обновляем счетчик карточки лайков в соответствии с ответом сервера
-      placeLikeQtyElement.textContent = result.likes.length;
-      })
-      .catch((err) => {
-        console.log(err); // выводим ошибку в консоль
-      });;
 
-  });
 
-  // слушатель удаления места
-  placeDeleteButton.addEventListener('click', function(evt){
-    handleDeleteCard(cardId)
-      .then((result) => {
-        // работаем с ответом
-        evt.target.closest('.place').remove();
-      })
-      .catch((err) => {
-        console.log(err); // выводим ошибку в консоль
-      });
-  });
+
+
+
+  // слушаем кнопку удаления места удаляем с сервера и потом из дом дерева по id
+  placeDeleteButton.addEventListener('click', () => handleDeleteCard(cardId));
   // возвращаем готовый элемент с карточкой места
   return cardElement;
 }
 
+
+
 // в зависимости от состояния кнопки выбираем метод
 // PUT
 // DELETE
-function selectingLikeMethod(element){
+export function selectingLikeMethod(element){
   let method;
   if(element.classList.contains('place__like-btn_pressed')){
     // если кнопка была нажата создаем метод DELETE для удаления лайка карточки

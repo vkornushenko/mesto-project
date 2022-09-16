@@ -1,6 +1,6 @@
 import {user, closePopupByEscape, openPopupUniversal, closePopupUniversal, profilePopup, formElement, nameInput, jobInput, profileTitleContainer, profileSubtitleContainer, avatarFormElement, avatarPicElement} from './components/modal.js'
 import {hasInvalidInput, toggleButtonState, isValid, showInputError, hideInputError, setEventListeners, enableValidation, enableValidationSettings, isPatternMismatch, renderLoading} from './components/validate.js';
-import {popupPicElement, cardTemplate, photoPopup, editPlaceName, editPlacePic, buttonOpenPopupCard, formElementAddPlace, addCard, places} from './components/card.js';
+import {popupPicElement, cardTemplate, photoPopup, editPlaceName, editPlacePic, buttonOpenPopupCard, formElementAddPlace, addCard, places, selectingLikeMethod} from './components/card.js';
 import {getCards, sendCard, deleteCard, setLike, unsetLike, changeAvatar, config, getInitialCards, getUser, sendUser, like} from './components/api.js';
 import './pages/index.css'; // добавьте импорт главного файла стилей
 
@@ -64,7 +64,7 @@ Promise.all([getUser(), getInitialCards()])
     const initialCards = values[1];
     // создаем карточки из массива карточек
     initialCards.forEach(function(item){
-      const cardElement = addCard(item.name, item.link, item.likes, item.owner._id, item._id, handleLikeCard, handleDeleteCard, userId);
+      const cardElement = addCard(item.name, item.link, item.likes, item.owner._id, item._id, userId);
       renderCard(cardElement, 'append');
     });
 
@@ -90,7 +90,7 @@ function handleCardFormSubmit(evt) {
   sendCard(placeName, placePic)
     .then((result) => {
       // обрабатываем результат
-      const cardElement = addCard(result.name, result.link, result.likes, result.owner._id, result._id, handleLikeCard, handleDeleteCard, userId);
+      const cardElement = addCard(result.name, result.link, result.likes, result.owner._id, result._id, userId);
       // отображаем карточку ответа с сервера на сайте
       renderCard(cardElement, 'prepend');
     })
@@ -113,6 +113,7 @@ function renderCard(cardElement, method){
   }
 }
 
+/*
 // функция очищает форму если она есть у попапа
 function resetFormIfIsset(popupElement){
   const form = popupElement.querySelector('.edit-profile');
@@ -121,6 +122,7 @@ function resetFormIfIsset(popupElement){
     form.reset();
   }
 }
+*/
 
 // ф-я отправки формы редактирования профиля
 function handleProfileFormSubmit(evt) {
@@ -178,14 +180,45 @@ export function handleAvatarFormSubmit(evt) {
   closePopupUniversal(avatarPopup);
 }
 
-function handleLikeCard(method, cardId){
-  // отправляем на сервер запрос на добавление или снятие лайка
-  return like(method, cardId)
+
+
+
+
+
+
+
+
+
+
+
+export function handleDeleteCard(cardId){
+  deleteCard(cardId)
+  .then((result) => {
+    // работаем с ответом
+    document.getElementById(cardId).remove();
+  })
+  .catch((err) => {
+    console.log(err); // выводим ошибку в консоль
+  });
 }
 
-function handleDeleteCard(cardId){
-  // удаляем карточку по ID
-  return deleteCard(cardId)
+
+export function handleLikeCard(cardId){
+  // находим нужные элементы
+  const currentCard = document.getElementById(cardId);
+  const currentLikeQtyElement = currentCard.querySelector('.place__like-qty');
+  const currentLikeBtn = currentCard.querySelector('.place__like-btn');
+  // проверяем состояние кнопки (чтобы понять удалять лайк или ставить)
+  const method = selectingLikeMethod(currentLikeBtn);
+
+  like(method, cardId)
+    .then((result) => {
+      // обновляем счетчик карточки лайков в соответствии с ответом сервера
+      currentLikeQtyElement.textContent = result.likes.length;
+      // меняем состояние кнопки
+      currentLikeBtn.classList.toggle('place__like-btn_pressed');
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    });
 }
-
-
