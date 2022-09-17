@@ -1,7 +1,7 @@
 import {user, closePopupByEscape, openPopupUniversal, closePopupUniversal, profilePopup, formElement, nameInput, jobInput, profileTitleContainer, profileSubtitleContainer, avatarFormElement, avatarPicElement} from './components/modal.js'
 import {hasInvalidInput, toggleButtonState, isValid, showInputError, hideInputError, setEventListeners, enableValidation, enableValidationSettings, isPatternMismatch, renderLoading} from './components/validate.js';
-import {popupPicElement, cardTemplate, photoPopup, editPlaceName, editPlacePic, buttonOpenPopupCard, formElementAddPlace, addCard, places, selectingLikeMethod, deleteElementById} from './components/card.js';
-import {getCards, sendCard, deleteCard, setLike, unsetLike, changeAvatar, config, getInitialCards, getUser, sendUser, like} from './components/api.js';
+import {popupPicElement, cardTemplate, photoPopup, editPlaceName, editPlacePic, buttonOpenPopupCard, formElementAddPlace, addCard, places, selectingLikeMethod, deleteElementById, refreshLikeCounter, toggleLikeButton} from './components/card.js';
+import {getCards, sendCard, deleteCard, config, getInitialCards, getUser, sendUser, like} from './components/api.js';
 import './pages/index.css'; // добавьте импорт главного файла стилей
 
 // кнопки открытия
@@ -39,6 +39,7 @@ enableValidation(enableValidationSettings);
 // объявляем глобальную переменную userId
 let userId;
 
+// получаем с сервера одновременно данные по пользователю и карточкам
 Promise.all([getUser(), getInitialCards()])
   .then(values => {
     // получаем два массива (юзер + карточки):
@@ -64,7 +65,7 @@ Promise.all([getUser(), getInitialCards()])
     const initialCards = values[1];
     // создаем карточки из массива карточек
     initialCards.forEach(function(item){
-      const cardElement = addCard(item.name, item.link, item.likes, item.owner._id, item._id, userId, handleDeleteCard);
+      const cardElement = addCard(item.name, item.link, item.likes, item.owner._id, item._id, userId);
       renderCard(cardElement, 'append');
     });
 
@@ -112,17 +113,6 @@ function renderCard(cardElement, method){
     places.prepend(cardElement);
   }
 }
-
-/*
-// функция очищает форму если она есть у попапа
-function resetFormIfIsset(popupElement){
-  const form = popupElement.querySelector('.edit-profile');
-  //console.log(form);
-  if(form){
-    form.reset();
-  }
-}
-*/
 
 // ф-я отправки формы редактирования профиля
 function handleProfileFormSubmit(evt) {
@@ -180,44 +170,28 @@ export function handleAvatarFormSubmit(evt) {
   closePopupUniversal(avatarPopup);
 }
 
-
-
-
-
-
-
-
-
-
-
-
+// обработчик удаления карточки места
 export function handleDeleteCard(cardId){
   deleteCard(cardId)
-  .then((result) => {
-    // работаем с ответом
-    deleteElementById(result._id);
-    document.getElementById(result._id).remove();
-  })
-  .catch((err) => {
-    console.log(err); // выводим ошибку в консоль
-  });
+    .then((result) => {
+      deleteElementById(cardId);
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    });
 }
 
-
+// обработчик кнопки лайка карточки места
 export function handleLikeCard(cardId){
-  // находим нужные элементы
-  const currentCard = document.getElementById(cardId);
-  const currentLikeQtyElement = currentCard.querySelector('.place__like-qty');
-  const currentLikeBtn = currentCard.querySelector('.place__like-btn');
-  // проверяем состояние кнопки (чтобы понять удалять лайк или ставить)
-  const method = selectingLikeMethod(currentLikeBtn);
-
+  // сначала узнаем убрать или поставить лайк
+  const method = selectingLikeMethod(cardId);
+  // отправляем запрос на добавление/удаление лайка
   like(method, cardId)
     .then((result) => {
-      // обновляем счетчик карточки лайков в соответствии с ответом сервера
-      currentLikeQtyElement.textContent = result.likes.length;
-      // меняем состояние кнопки
-      currentLikeBtn.classList.toggle('place__like-btn_pressed');
+      // обновим счетчик лайков у карточки
+      refreshLikeCounter(cardId, result.likes.length);
+      // поменяем состояние кнопки
+      toggleLikeButton(cardId);
     })
     .catch((err) => {
       console.log(err); // выводим ошибку в консоль

@@ -1,6 +1,3 @@
-import {sendUser, sendAvatar} from './api.js';
-import {renderLoading} from '../components/validate.js';
-
 // элементы с именем и профессией профиля
 export const nameInput = document.querySelector('.edit-profile__name');
 export const jobInput = document.querySelector('.edit-profile__description');
