@@ -1,7 +1,7 @@
-import {user, closePopupByEscape, openPopupUniversal, closePopupUniversal, profilePopup, formElement, nameInput, jobInput, profileTitleContainer, profileSubtitleContainer, avatarFormElement, avatarPicElement} from './components/modal.js'
+import {user, closePopupByEscape, openPopupUniversal, closePopupUniversal, profilePopup, formElement, nameInput, jobInput, profileTitleContainer, profileSubtitleContainer, avatarFormElement, avatarPicElement, avatarLinkInput, avatarPopup} from './components/modal.js'
 import {hasInvalidInput, toggleButtonState, isValid, showInputError, hideInputError, setEventListeners, enableValidation, enableValidationSettings, isPatternMismatch, renderLoading} from './components/validate.js';
 import {popupPicElement, cardTemplate, photoPopup, editPlaceName, editPlacePic, buttonOpenPopupCard, formElementAddPlace, addCard, places, selectingLikeMethod, deleteElementById, refreshLikeCounter, toggleLikeButton} from './components/card.js';
-import {getCards, sendCard, deleteCard, config, getInitialCards, getUser, sendUser, like} from './components/api.js';
+import {getCards, sendCard, deleteCard, config, getInitialCards, getUser, sendUser, like, sendAvatar} from './components/api.js';
 import './pages/index.css'; // добавьте импорт главного файла стилей
 
 // кнопки открытия
@@ -80,11 +80,8 @@ function handleCardFormSubmit(evt) {
   // получаем значения из инпутов
   const placeName = editPlaceName.value;
   const placePic = editPlacePic.value;
-  // закрываем окно
-  closePopupUniversal(buttonOpenPopupCard);
-  // делаем reset для формы
-  formElementAddPlace.reset();
-
+  // задаем кнопке субмита класс loading
+  evt.target.querySelector(enableValidationSettings.submitButtonSelector).classList.add('loading');
   // вызываем ф-ю загрузки перед отправкой формы
   renderLoading(true);
   // отправляем данные новой карточки на сервер
@@ -94,6 +91,10 @@ function handleCardFormSubmit(evt) {
       const cardElement = addCard(result.name, result.link, result.likes, result.owner._id, result._id, userId);
       // отображаем карточку ответа с сервера на сайте
       renderCard(cardElement, 'prepend');
+      // закрываем окно добавления карточки
+      closePopupUniversal(buttonOpenPopupCard);
+      // делаем reset для формы
+      formElementAddPlace.reset();
     })
     .catch((err) => {
       console.log(err); // выводим ошибку в консоль
@@ -117,13 +118,25 @@ function renderCard(cardElement, method){
 // ф-я отправки формы редактирования профиля
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
+  // получаем кнопку субмита с которой будем работать во время загрузки
+  //const button = evt.target.querySelector(enableValidationSettings.submitButtonSelector);
+  // задаем кнопке субмита класс loading
+  evt.target.querySelector(enableValidationSettings.submitButtonSelector).classList.add('loading');
   // вызываем ф-ю загрузки перед отправкой формы
   renderLoading(true);
   // отправляем на сервер данные юзера
   sendUser(nameInput.value, jobInput.value)
     .then((result) => {
       // обрабатываем результат
-      //console.log(result);
+      // сохраняем значения имени и профиля при отправке формы
+      // они отображаются в попапе профиля при повторном открытии
+      user.name = nameInput.value;
+      user.job = jobInput.value;
+      // присваиваем имя профиля на странице
+      profileTitleContainer.textContent = nameInput.value;
+      profileSubtitleContainer.textContent = jobInput.value;
+      // закрываем окно
+      closePopupUniversal(profilePopup);
     })
     .catch((err) => {
       console.log(err); // выводим ошибку в консоль
@@ -131,33 +144,23 @@ function handleProfileFormSubmit(evt) {
     .finally(() => {
       renderLoading(false);
     });
-  // сохраняем значения имени и профиля при отправке формы
-  // они отображаются в попапе профиля при повторном открытии
-  user.name = nameInput.value;
-  user.job = jobInput.value;
-  // присваиваем имя профиля на странице
-  profileTitleContainer.textContent = nameInput.value;
-  profileSubtitleContainer.textContent = jobInput.value;
-  // закрываем окно
-  closePopupUniversal(profilePopup);
 }
 
 // ф-я отправки формы смены аватарки
 export function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
-  // получаем значения из инпутов
-  //const avatar = .value;
+  // задаем кнопке субмита класс loading
+  evt.target.querySelector(enableValidationSettings.submitButtonSelector).classList.add('loading');
   // вызываем ф-ю загрузки перед отправкой формы
   renderLoading(true);
   // отправляем ссылку на новый  аватар на сервер
   sendAvatar(avatarLinkInput.value)
     .then((result) => {
       // обрабатываем результат
-      console.log(result);
-      //const avatarUrl = result.avatar;
-      //console.log(avatarUrl);
-      //console.log(avatarPicElement);
-      avatarPicElement.style.backgroundImage = `url(${avatarUrl})`;
+      //console.log(result);
+      avatarPicElement.style.backgroundImage = `url(${result.avatar})`;
+      // закрываем окно попапа аватара
+      closePopupUniversal(avatarPopup);
     })
     .catch((err) => {
       console.log(err); // выводим ошибку в консоль
@@ -165,9 +168,6 @@ export function handleAvatarFormSubmit(evt) {
     .finally(() => {
       renderLoading(false);
     });
-
-  // закрываем окно попапа аватара
-  closePopupUniversal(avatarPopup);
 }
 
 // обработчик удаления карточки места

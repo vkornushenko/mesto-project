@@ -31,16 +31,13 @@ export const enableValidationSettings = {
 // sendAvatar
 // sendUser
 export function renderLoading(isLoading){
-  const loadingButton = document.querySelector(enableValidationSettings.submitButtonSelector);
+  const button = document.querySelector('.loading');
   if(isLoading){
-    // меняем текст кнопки на "сохранение..."
-    loadingButton.value = 'Сохранение...';
-    //console.log('Сохранение...');
+    button.value = 'Сохранение...';
   }
   else{
-    // меняем текст кнопки обратно на "сохранить"
-    loadingButton.value = 'Сохранить';
-    //console.log('Сохранить');
+    button.value = 'Сохранить';
+    button.classList.remove('loading');
   }
 }
 

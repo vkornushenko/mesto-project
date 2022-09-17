@@ -16,7 +16,7 @@ export const formElement = profilePopup.querySelector('.edit-profile');
 export const avatarPicElement = document.querySelector('.profile__avatar');
 // элементы попапа смены аватара
 const avatarButton = document.querySelector('.profile__edit-avatar-button');
-const avatarPopup = document.querySelector('.js-set-new-avatar-popup');
+export const avatarPopup = document.querySelector('.js-set-new-avatar-popup');
 export const avatarFormElement = avatarPopup.querySelector('.edit-profile');
 export const avatarLinkInput = document.querySelector('.avatar-url');
 //console.log(avatarLinkInput);
