@@ -1,6 +1,6 @@
 import {user, closePopupByEscape, openPopupUniversal, closePopupUniversal, profilePopup, formElement, nameInput, jobInput, profileTitleContainer, profileSubtitleContainer, avatarFormElement, avatarPicElement} from './components/modal.js'
 import {hasInvalidInput, toggleButtonState, isValid, showInputError, hideInputError, setEventListeners, enableValidation, enableValidationSettings, isPatternMismatch, renderLoading} from './components/validate.js';
-import {popupPicElement, cardTemplate, photoPopup, editPlaceName, editPlacePic, buttonOpenPopupCard, formElementAddPlace, addCard, places, selectingLikeMethod} from './components/card.js';
+import {popupPicElement, cardTemplate, photoPopup, editPlaceName, editPlacePic, buttonOpenPopupCard, formElementAddPlace, addCard, places, selectingLikeMethod, deleteElementById} from './components/card.js';
 import {getCards, sendCard, deleteCard, setLike, unsetLike, changeAvatar, config, getInitialCards, getUser, sendUser, like} from './components/api.js';
 import './pages/index.css'; // добавьте импорт главного файла стилей
 
@@ -64,7 +64,7 @@ Promise.all([getUser(), getInitialCards()])
     const initialCards = values[1];
     // создаем карточки из массива карточек
     initialCards.forEach(function(item){
-      const cardElement = addCard(item.name, item.link, item.likes, item.owner._id, item._id, userId);
+      const cardElement = addCard(item.name, item.link, item.likes, item.owner._id, item._id, userId, handleDeleteCard);
       renderCard(cardElement, 'append');
     });
 
@@ -195,7 +195,8 @@ export function handleDeleteCard(cardId){
   deleteCard(cardId)
   .then((result) => {
     // работаем с ответом
-    document.getElementById(cardId).remove();
+    deleteElementById(result._id);
+    document.getElementById(result._id).remove();
   })
   .catch((err) => {
     console.log(err); // выводим ошибку в консоль

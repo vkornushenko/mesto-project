@@ -30,7 +30,7 @@ function amItheCardOwner(cardOwnerId, myId){
 }
 
 // создаем функцию добавления карточки места
-export function addCard(title, pic, likes, cardOwnerId, cardId, /*handleLikeCard, handleDeleteCard,*/ userId){
+export function addCard(title, pic, likes, cardOwnerId, cardId, userId, handleDeleteCard){
   // клонируем содержимое шаблона карточки
   const cardElement = cardTemplate.querySelector('.place').cloneNode(true);
 
@@ -65,6 +65,8 @@ export function addCard(title, pic, likes, cardOwnerId, cardId, /*handleLikeCard
   cardElement.setAttribute('id', cardId);
 
   // не отображаем корзину если мы не владельцы карточки
+  console.log(cardOwnerId);
+  console.log(userId);
   if(!amItheCardOwner(cardOwnerId, userId)){
     placeDeleteButton.remove();
   }
@@ -84,14 +86,10 @@ export function addCard(title, pic, likes, cardOwnerId, cardId, /*handleLikeCard
 
   // слушатель лайков
   placeLikeButton.addEventListener('click', () => handleLikeCard(cardId));
-
-
-
-
-
-
   // слушаем кнопку удаления места удаляем с сервера и потом из дом дерева по id
   placeDeleteButton.addEventListener('click', () => handleDeleteCard(cardId));
+
+
   // возвращаем готовый элемент с карточкой места
   return cardElement;
 }
@@ -111,4 +109,11 @@ export function selectingLikeMethod(element){
     method = 'PUT';
   }
   return method;
+}
+
+
+// ф-я удаления элемента по ID
+export function deleteElementById(elementId){
+  console.log(document.getElementById(elementId));
+  document.getElementById(elementId).remove();
 }
