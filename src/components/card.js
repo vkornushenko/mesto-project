@@ -1,3 +1,49 @@
+export default class Card {
+  constructor({data, liker, opener}, selector) {
+    this._data = data;
+    this._selector = selector;
+    this._opener = opener;
+    this._liker = liker;
+  }
+
+  _getElement() {
+    const cardElement = document
+      .querySelector(this._selector)
+      .content
+      .querySelector('.place')
+      .cloneNode(true);
+
+    return cardElement;
+  }
+
+  _setEventListeners() {
+    // Дописать после того, как разберемся с Popup
+    this._element.addEventListener('click', () => {
+      this._opener();
+    });
+
+    // Дописать после того, как разберемся с Api
+    this._element.querySelector('.place__like-btn').addEventListener('click', () => {
+      this._liker();
+    });
+  }
+
+  generate() {
+    this._element = this._getElement();
+    this._setEventListeners();
+
+    this._element.querySelector('.card__image').style.backgroundImage = `url(${this.data.link})`;
+    this._element.querySelector('.place__photo').textContent = this.data.name;
+
+    return this._element;
+  }
+}
+
+
+
+
+
+
 import {openPopupUniversal} from '../components/modal.js';
 import {handleLikeCard, handleDeleteCard} from '../index.js';
 
