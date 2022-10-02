@@ -1,8 +1,12 @@
 import {user, closePopupByEscape, openPopupUniversal, closePopupUniversal, profilePopup, formElement, nameInput, jobInput, profileTitleContainer, profileSubtitleContainer, avatarFormElement, avatarPicElement, avatarLinkInput, avatarPopup} from './components/modal.js'
 import {hasInvalidInput, toggleButtonState, isValid, showInputError, hideInputError, setEventListeners, enableValidation, enableValidationSettings, isPatternMismatch, renderLoading} from './components/validate.js';
 import {popupPicElement, cardTemplate, photoPopup, editPlaceName, editPlacePic, buttonOpenPopupCard, formElementAddPlace, addCard, places, selectingLikeMethod, deleteElementById, refreshLikeCounter, toggleLikeButton} from './components/card.js';
-import {getCards, sendCard, deleteCard, config, getInitialCards, getUser, sendUser, like, sendAvatar} from './components/api.js';
+import {getCards, sendCard, deleteCard, config, /*getInitialCards, getUser,*/ sendUser, like, sendAvatar} from './components/api.js';
 import './pages/index.css'; // добавьте импорт главного файла стилей
+
+
+import {api} from "./components/api.js";
+
 
 // кнопки открытия
 const buttonAddPlaceOpen = document.querySelector('.profile__add-button');
@@ -36,11 +40,24 @@ avatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
 // Вызовем функцию
 enableValidation(enableValidationSettings);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // объявляем глобальную переменную userId
 let userId;
-
 // получаем с сервера одновременно данные по пользователю и карточкам
-Promise.all([getUser(), getInitialCards()])
+Promise.all([api.getUser(), api.getInitialCards()])
   .then(values => {
     // получаем два массива (юзер + карточки):
     // данные пользователя
@@ -172,7 +189,16 @@ export function handleAvatarFormSubmit(evt) {
 
 // обработчик удаления карточки места
 export function handleDeleteCard(cardId){
+  /*
   deleteCard(cardId)
+    .then((result) => {
+      deleteElementById(cardId);
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    });
+  */
+  api.deleteCard(cardId)
     .then((result) => {
       deleteElementById(cardId);
     })
