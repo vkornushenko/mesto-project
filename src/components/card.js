@@ -1,9 +1,11 @@
 export default class Card {
-  constructor({data, liker, opener}, selector) {
+  constructor({ data, opener, liker, deleter }, selector, userId){
     this._data = data;
     this._selector = selector;
+    this._userId = userId;
     this._opener = opener;
     this._liker = liker;
+    this._deleter = deleter;
   }
 
   _getElement() {
@@ -16,24 +18,41 @@ export default class Card {
     return cardElement;
   }
 
+  _likeHandle(){
+    const method = this._data.likes.include(this._userID) ? 'DELETE' : 'PUT';
+    this._liker({ method, id: this._data._id})
+      .then(data => { this._elementLikesQty.textContent = data.likes.length });
+  }
+
   _setEventListeners() {
-    // Дописать после того, как разберемся с Popup
-    this._element.addEventListener('click', () => {
-      this._opener();
+    this._elementPhoto.addEventListener('click', () => {
+      this._opener(this._data.name, this._data.link);
     });
 
-    // Дописать после того, как разберемся с Api
     this._element.querySelector('.place__like-btn').addEventListener('click', () => {
-      this._liker();
+      evt.preventDefault();
+      this._likeHandle();
+    });
+
+    this._deleteButton.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      this._deleter(this._data._id);
     });
   }
 
   generate() {
     this._element = this._getElement();
+    this._elementLikesQty = this._element.querySelector('.place__like-qty');
+    this._deleteButton = this._element.querySelector('.place__delete-btn');
+    this._elementPhoto = this._element.querySelector('.place__photo');
+
     this._setEventListeners();
 
-    this._element.querySelector('.card__image').style.backgroundImage = `url(${this.data.link})`;
-    this._element.querySelector('.place__photo').textContent = this.data.name;
+
+    this._elementLikesQty.textContent = this._data.likes.length;
+    this._elementPhoto.style.backgroundImage = `url(${this._data.link})`;
+    this._element.querySelector('.place__name').textContent = this._data.name;
+    this._deleteButton.disabled = this._userId != this._data.owner._id;
 
     return this._element;
   }
