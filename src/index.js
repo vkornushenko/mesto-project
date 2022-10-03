@@ -6,6 +6,7 @@ import './pages/index.css'; // добавьте импорт главного ф
 
 
 import {api} from "./components/api.js";
+import Section from './components/Section.js';
 
 
 // кнопки открытия
@@ -47,18 +48,33 @@ enableValidation(enableValidationSettings);
 
 
 
+// экземпляр класса с полями информации о пользователе
+const userInfo = new UserInfo(
+  ".profile__title",
+  ".profile__subtitle",
+  ".profile__avatar"
+);
 
-
-
-
-
+// создаю экземпляр класса секция
 
 
 // объявляем глобальную переменную userId
 let userId;
 // получаем с сервера одновременно данные по пользователю и карточкам
 Promise.all([api.getUser(), api.getInitialCards()])
-  .then(values => {
+  .then(([userData, cards]) => {
+    // id пользователя
+    userId = userData._id;
+    // редактируем DOM элементы профиля юзера (имя и профессия)
+    userInfo.setUserInfo(userData.name, userData.about);
+    // меняем аву
+    userInfo.setAvatar(userData.avatar);
+    // id пользователя
+    userInfo.setUserId(userData._id);
+    // создаем карточки мест
+
+
+    /*
     // получаем два массива (юзер + карточки):
     // данные пользователя
     const user = values[0];
@@ -68,16 +84,19 @@ Promise.all([api.getUser(), api.getInitialCards()])
     user.avatar = values[0].avatar;
     user._id = values[0]._id;
     user.cohort = values[0].cohort;
-
     userId = values[0]._id;
-
     // редактируем DOM элементы
     profileTitleContainer.textContent = user.name;
     profileSubtitleContainer.textContent = user.job;
     avatarPicElement.style.backgroundImage = `url(${user.avatar})`;
+    */
+
     // записываем данные в инпуты тоже
+    /*
     nameInput.setAttribute('value', user.name);
     jobInput.setAttribute('value', user.job);
+    */
+
     // обрабатываем результат карточек
     const initialCards = values[1];
     // создаем карточки из массива карточек
