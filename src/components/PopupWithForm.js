@@ -1,8 +1,10 @@
+import Popup from "./Popup";
+
 export class PopupWithForm extends Popup {
   constructor(popupSelector, submitHandler, textButton){
     super(popupSelector);
     this._form = this._popup.querySelector('.edit-profile');
-    this._inputList = this._popup.popupSelector('.form__input');
+    this._inputList = this._popup.querySelectorAll('.form__input');
     this._popupButton = this._popup.querySelector('.edit-profile__submit');
     this._submitHandler = submitHandler;
     this._textButton = textButton;
@@ -24,6 +26,9 @@ export class PopupWithForm extends Popup {
 
       this._submitHandler(this._getInputValues())
         .then(() => {
+          this.close();
+        })
+        .finally(() => {
           this._popupButton.innerText = text;
           this._popupButton.disabled = false;
         });

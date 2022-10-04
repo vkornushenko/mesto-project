@@ -1,20 +1,8 @@
-//  в index добавить
-
-//  const validatorConfig = {
-//    inputSelector: '.form__input',
-//    submitButtonSelector: '.form__button',
-//    inactiveButtonClass: 'form__button-inactive',
-//  }
-
-//  const profileFormValidator = new FormValidator(validatorConfig, profileEditForm);
-//  const addCardFormValidator = new FormValidator(validatorConfig, cardAddForm);
-//  const avatarFormValidator = new FormValidator(validatorConfig, avatarEditForm);
-
 export default class FormValidator {
   constructor(config, formElement) {
     this._inputSelector = config.inputSelector;
     this._submitButtonSelector = config.submitButtonSelector;
-    this._inactiveButtonClass = config.inactiveButtonClass
+    this._errorElementClassActive = config.errorElementClassActive;
     this._formElement = formElement;
   }
 
@@ -23,10 +11,13 @@ export default class FormValidator {
   _validateInput(inputElement, errorElement) {
     if (inputElement.validity.valid) {
       errorElement.textContent = "";
+      errorElement.classList.remove(this._errorElementClassActive);
     } else if (inputElement.validity.patternMismatch) {
       errorElement.textContent = inputElement.dataset.patternError;
+      errorElement.classList.add(this._errorElementClassActive);
     } else {
       errorElement.textContent = inputElement.validationMessage;
+      errorElement.classList.add(this._errorElementClassActive);
     }
   }
 
@@ -35,10 +26,8 @@ export default class FormValidator {
   _toggleButtonState(inputList, buttonElement) {
     if (this._hasInvalidInput(inputList)) {
       buttonElement.disabled = true;
-      buttonElement.classList.add(this._inactiveButtonClass);
     } else {
       buttonElement.disabled = false;
-      buttonElement.classList.remove(this._inactiveButtonClass);
     };
   };
 
