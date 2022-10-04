@@ -13,13 +13,14 @@ export default class Section {
 
 // Метод отвечает за отрисовку всех элементов
 
-  renderItems() {
-    this._items.forEach(this._renderer);
+  renderItems(items) {
+    const renderItems = items ? items : this._items;
+    renderItems.reverse().forEach(this._renderer);
   }
 
 // Метод принимает DOM-элемент и добавляет его в контейнер
 
   addItem(item) {
-    this._container.append(item);
+    this._container.prepend(item);
   }
 }

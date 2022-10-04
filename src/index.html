@@ -39,9 +39,9 @@
         <form class="edit-profile" action="#" method="POST" name="edit-profile" novalidate>
           <fieldset class="edit-profile__form-fieldset">
             <h3 class="edit-profile__title">Редактировать профиль</h3>
-            <input type="text" name="profile-title" placeholder="имя" class="edit-profile__name form__input" id="profile-title-input" minlength="2" maxlength="40" required>
+            <input type="text" name="name" placeholder="имя" class="edit-profile__name form__input" id="profile-title-input" minlength="2" maxlength="40" required>
             <span class="edit-profile__input-error profile-title-input-error"></span>
-            <input type="text" name="profile-subtitle" placeholder="описание" class="edit-profile__description form__input" id="profile-description-input" minlength="2" maxlength="200" required>
+            <input type="text" name="about" placeholder="описание" class="edit-profile__description form__input" id="profile-description-input" minlength="2" maxlength="200" required>
             <span class="edit-profile__input-error profile-description-input-error"></span>
             <input type="submit" value="Сохранить" class="edit-profile__submit fade-btn fade-btn_type_text form__button">
           </fieldset>
@@ -79,7 +79,7 @@
         <form class="edit-profile" action="#" method="POST" name="edit-avatar">
           <fieldset class="edit-profile__form-fieldset">
             <h3 class="edit-profile__title">Обновить аватар</h3>
-            <input type="url" name="profile-subtitle" placeholder="Ссылка на картинку аватара" class="edit-profile__description avatar-url form__input" id="avatar-link-input" required>
+            <input type="url" name="avatar" placeholder="Ссылка на картинку аватара" class="edit-profile__description avatar-url form__input" id="avatar-link-input" required>
             <span class="edit-profile__input-error avatar-link-input-error">текст ошибки</span>
             <input type="submit" value="Сохранить" class="edit-profile__submit fade-btn fade-btn_type_text form__button">
           </fieldset>

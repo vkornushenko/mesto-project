@@ -1,6 +1,7 @@
 // кнопки открытия
 export const buttonAddPlaceOpen = document.querySelector('.profile__add-button');
 export const editProfileButton = document.querySelector('.profile__edit-button');
+export const editAvatarButton = document.querySelector('.profile__edit-avatar-button');
 // массив форм в попапах, для запуска валидации
 export const formsList = Array.from(document.forms);
 
@@ -10,8 +11,6 @@ export const validatorConfig = {
   errorElementClassActive: 'edit-profile__input-error_active',
 }
 
-export const textButton = 'Сохранение...';
-
 export const imagePopupConfig = {
   popupSelector: '.js-open-photo-popup',
   imageSelector: '.photo-pop-up__image',
@@ -19,4 +18,15 @@ export const imagePopupConfig = {
 }
 
 export const addPlacePopupSelector = '.js-add-place-popup';
+export const editProfilePopupSelector = '.js-edit-profile-popup';
+export const editAvatarPopupSelector = '.js-set-new-avatar-popup';
+
 export const addPlacePopupSubmitButton = document.querySelector(addPlacePopupSelector).querySelector('.edit-profile__submit');
+export const editAvatarPopupSubmitButton = document.querySelector(editAvatarPopupSelector).querySelector('.edit-profile__submit');
+
+export const nameField = document.querySelector('#profile-title-input');
+export const descriptionField = document.querySelector('#profile-description-input');
+
+export const addPlaceForm = document.forms['add-place'];
+export const editProfileForm = document.forms['edit-profile'];
+export const editAvatarForm = document.forms['edit-avatar'];

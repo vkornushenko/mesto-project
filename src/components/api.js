@@ -63,11 +63,11 @@ class Api {
     .then(response);
   }
   // метод отправки аватарки на сервер
-  sendAvatar(data){
+  sendAvatar(avatar){
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       body: JSON.stringify({
-        avatar: data.avatar
+        avatar
       }),
       headers: this._headers
     })

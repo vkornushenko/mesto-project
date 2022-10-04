@@ -4,11 +4,12 @@ class UserInfo{
     this._description = document.querySelector(descriptionSelector);
     this._avatar = document.querySelector(avatarSelector);
   }
+
   getUserInfo(){
     return {
       userId: this._id,
       name: this._name.textContent,
-      about: this._about.textContent
+      about: this._description.textContent
     }
   }
 
@@ -18,7 +19,7 @@ class UserInfo{
   }
 
   setAvatar(avatarUrl){
-    this._avatar.src = avatarUrl;
+    this._avatar.style.backgroundImage = `url(${avatarUrl})`;
   }
 
   setUserId(userId){
