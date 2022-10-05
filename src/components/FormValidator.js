@@ -6,8 +6,7 @@ export default class FormValidator {
     this._formElement = formElement;
   }
 
-// Валидируем поле
-
+  // Валидируем поле
   _validateInput(inputElement, errorElement) {
     if (inputElement.validity.valid) {
       errorElement.textContent = "";
@@ -21,8 +20,7 @@ export default class FormValidator {
     }
   }
 
-// Переключение состояния кнопки
-
+  // Переключение состояния кнопки
   _toggleButtonState(inputList, buttonElement) {
     if (this._hasInvalidInput(inputList)) {
       buttonElement.disabled = true;
@@ -31,8 +29,7 @@ export default class FormValidator {
     };
   };
 
-// Включение валидации формы
-
+  // Включение валидации формы
   enableValidation() {
     this._formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
@@ -48,8 +45,7 @@ export default class FormValidator {
     });
   }
 
-// Валидируем форму
-
+  // Валидируем форму
   validate() {
     const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
     const submitButton = this._formElement.querySelector(this._submitButtonSelector);
@@ -60,24 +56,21 @@ export default class FormValidator {
     });
   }
 
-// Валидация кнопки
-
+  // Валидация кнопки
   validateButton() {
     const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
     const submitButton = this._formElement.querySelector(this._submitButtonSelector);
     this._toggleButtonState(inputList, submitButton);
   }
 
-// Проверка на невалидность поля
-
+  // Проверка на невалидность поля
   _hasInvalidInput(inputList) {
     return inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   };
 
-// Добавления сообщения об ошибке
-
+  // Добавления сообщения об ошибке
   _errorFieldForInput(formElement, inputElement) {
     return formElement.querySelector(`.${inputElement.id}-error`);
   }

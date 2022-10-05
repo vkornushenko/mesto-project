@@ -1,6 +1,5 @@
-import './pages/index.css'; // добавьте импорт главного файла стилей
-
-import {api} from "./components/api.js";
+import './pages/index.css';
+import Api from "./components/Api.js";
 import FormValidator from './components/FormValidator';
 import UserInfo from './components/UserInfo';
 import Card from './components/Card';
@@ -8,6 +7,7 @@ import PopupWithImamge from './components/PopupWithImage';
 import PopupWithForm from './components/PopupWithForm';
 import Section from './components/Section.js';
 import {
+  apiConfig,
   buttonAddPlaceOpen,
   editProfileButton,
   editAvatarButton,
@@ -25,6 +25,27 @@ import {
   descriptionField
 } from './utils/constants';
 
+const api = new Api(apiConfig);
+
+// объявляем глобальную переменную userId
+let userId;
+// получаем с сервера одновременно данные по пользователю и карточкам
+Promise.all([api.getUser(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    // id пользователя
+    userId = userData._id;
+    // редактируем DOM элементы профиля юзера (имя и профессия)
+    userInfo.setUserInfo(userData.name, userData.about);
+    // меняем аву
+    userInfo.setAvatar(userData.avatar);
+    // id пользователя
+    userInfo.setUserId(userData._id);
+
+    cardList.renderItems(cards);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 function createCard(cardData) {
   const card = new Card({
@@ -127,23 +148,3 @@ const cardList = new Section({
     cardList.addItem(createCard(cardData));
   }
 }, '.places');
-
-// объявляем глобальную переменную userId
-let userId;
-// получаем с сервера одновременно данные по пользователю и карточкам
-Promise.all([api.getUser(), api.getInitialCards()])
-  .then(([userData, cards]) => {
-    // id пользователя
-    userId = userData._id;
-    // редактируем DOM элементы профиля юзера (имя и профессия)
-    userInfo.setUserInfo(userData.name, userData.about);
-    // меняем аву
-    userInfo.setAvatar(userData.avatar);
-    // id пользователя
-    userInfo.setUserId(userData._id);
-
-    cardList.renderItems(cards);
-  })
-  .catch((err) => {
-    console.log(err);
-  });

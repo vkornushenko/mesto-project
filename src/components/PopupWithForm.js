@@ -1,6 +1,6 @@
 import Popup from "./Popup";
 
-export class PopupWithForm extends Popup {
+export default class PopupWithForm extends Popup {
   constructor(popupSelector, submitHandler, textButton){
     super(popupSelector);
     this._form = this._popup.querySelector('.edit-profile');
@@ -10,13 +10,13 @@ export class PopupWithForm extends Popup {
     this._textButton = textButton;
   }
 
-  _getInputValues(){
+  _getInputValues() {
     const formData = {};
     this._inputList.forEach((input) => (formData[input.name] = input.value));
     return formData;
   }
 
-  setEventListeners(){
+  setEventListeners() {
     super.setEventListeners();
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
@@ -35,9 +35,8 @@ export class PopupWithForm extends Popup {
     });
   }
 
-  close(){
+  close() {
     super.close();
     this._form.reset();
   }
 }
-export default PopupWithForm;

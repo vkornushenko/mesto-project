@@ -18,7 +18,7 @@ export default class Card {
     return cardElement;
   }
 
-  _togglePressedLikeButton(){
+  _togglePressedLikeButton() {
     if (this._data.likes.some(like => like._id === this._userId)) {
       this._likeButton.classList.add('place__like-btn_pressed');
     } else {
@@ -26,7 +26,7 @@ export default class Card {
     }
   }
 
-  _likeHandle(){
+  _likeHandle() {
     const method = this._data.likes.some(like => like._id === this._userId) ? 'DELETE' : 'PUT';
     this._liker({ method, id: this._data._id})
       .then(data => {
@@ -36,7 +36,7 @@ export default class Card {
       });
   }
 
-  _deleteHandle(evt){
+  _deleteHandle(evt) {
     this._deleteCard(this._data._id)
       .then(() => { evt.target.parentNode.remove() });
   }
